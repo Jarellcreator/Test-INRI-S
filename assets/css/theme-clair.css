@@ -1,0 +1,116 @@
+/* =====================================================================
+   INRI'S FORMATIONS — Déclinaison claire
+   ---------------------------------------------------------------------
+   À charger APRÈS style.css. Ce fichier ne fait que redéfinir les tokens
+   du bloc :root — aucune règle de mise en page n'est dupliquée.
+
+   La charte tombe juste ici : le background gris #F9FAFE et le texte bleu
+   #1F3149 retrouvent exactement le rôle prévu par le document de charte,
+   et le dégradé #281B59 -> #C10058 reprend ses valeurs d'origine (sur fond
+   sombre il fallait l'éclaircir pour rester lisible).
+   ===================================================================== */
+
+:root {
+  /* Fonds : le gris de charte en fond de page, le blanc pour les surfaces */
+  --bg: #F9FAFE;
+  --bg-soft: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #FFFFFF;
+  --surface-3: #F2F4FB;
+
+  /* Traits et voiles, teintés du bleu de charte plutôt que d'un gris neutre */
+  --line: rgba(31, 49, 73, .11);
+  --line-strong: rgba(31, 49, 73, .2);
+  --glass: rgba(31, 49, 73, .04);
+
+  /* Texte : bleu de charte en principal, gris bis de charte en tertiaire */
+  --text: #1F3149;
+  --text-2: #4C5B72;
+  --text-3: #8A97AA;
+
+  /* Ombres : portées douces et bleutées, jamais de noir pur sur fond clair */
+  --shadow-sm: 0 2px 8px rgba(31, 49, 73, .06);
+  --shadow-md: 0 14px 36px rgba(31, 49, 73, .1);
+  --shadow-lg: 0 28px 64px rgba(31, 49, 73, .14);
+  --glow-rose: 0 14px 34px -10px rgba(193, 0, 88, .45);
+
+  /* Halos d'ambiance : très atténués, sinon le fond vire au sale */
+  --halo-1: rgba(40, 27, 89, .07);
+  --halo-2: rgba(193, 0, 88, .07);
+  --halo-3: rgba(40, 27, 89, .05);
+
+  /* Surfaces composées */
+  --header-bg: rgba(249, 250, 254, .88);
+  --nav-bg: #FFFFFF;
+  --marquee-bg: #FFFFFF;
+  --footer-bg: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --stat-bg: #FFFFFF;
+  --stat-bg-hover: #F2F4FB;
+  --quote-bg: #FFFFFF;
+  --pathcard-bg: #FFFFFF;
+  --floating-bg: #FFFFFF;
+  --panel-bg: linear-gradient(160deg, #FFFFFF, #F4F1FA);
+  --acc-bg: #FFFFFF;
+  --acc-bg-open: #FFFFFF;
+  --method-bg: #FFFFFF;
+  --method-bg-hover: #F2F4FB;
+  --soft-fill: rgba(31, 49, 73, .05);
+  --soft-fill-hover: rgba(31, 49, 73, .035);
+  --track: rgba(31, 49, 73, .1);
+  --ghost-border-hover: rgba(31, 49, 73, .34);
+  --ghost-bg-hover: rgba(31, 49, 73, .05);
+  --icon-bg: var(--gradient);
+
+  /* Accents : le dégradé de charte à ses valeurs exactes, et un vert
+     assombri pour le texte — #00E5AC sur blanc plafonne à 1,7:1. */
+  --mint-text: #00815C;
+  --tag-rose-text: #C10058;
+  --star: #E8A118;
+  --grad-text: linear-gradient(100deg, #281B59 0%, #8A1C5C 55%, #C10058 100%);
+  --grad-num: linear-gradient(100deg, #3A2270, #C10058 78%);
+}
+
+/* Quelques ajustements que le seul jeu de tokens ne couvre pas -------------- */
+
+/* Sur fond clair, les cartes ont besoin d'une ombre portée plutôt que d'un
+   simple trait pour se détacher. */
+.card,
+.quote,
+.method__item,
+.acc,
+.stat {
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover,
+.quote:hover,
+.method__item:hover { box-shadow: var(--shadow-md); }
+
+/* La grille des chiffres clés : sur fond sombre les séparateurs suffisaient,
+   ici le bloc doit être posé comme une seule carte blanche. */
+.stats { box-shadow: var(--shadow-sm); }
+.stat { box-shadow: none; }
+
+/* Le bandeau défilant se distingue du fond par un trait, pas par un voile. */
+.marquee { background: transparent; }
+
+/* Les pastilles de réassurance et le bouton secondaire deviennent blancs :
+   l'effet « verre » n'a plus de sens sans fond sombre derrière. */
+.chip,
+.eyebrow,
+.btn--ghost,
+.socials a { background: #FFFFFF; box-shadow: var(--shadow-sm); }
+
+/* Le vert de charte pur est trop pâle pour une pastille de 7 px sur blanc. */
+.eyebrow::before { background: var(--mint-text); box-shadow: 0 0 0 4px rgba(0, 129, 92, .12); }
+
+/* Le halo derrière la carte du hero est trop saturé sur fond clair. */
+.hero__visual::before { opacity: .14; }
+
+/* L'encart financement garde le dégradé de marque en tache colorée, mais
+   nettement plus discret. */
+.panel::after { opacity: .1; }
+
+/* Le footer est posé sur le blanc : on le sépare par un aplat très léger. */
+.footer { background: #FFFFFF; }
