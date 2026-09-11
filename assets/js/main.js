@@ -113,6 +113,17 @@
     });
   }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
 
+  // Filet de sécurité : si l'observateur n'a pas pu se déclencher (ancre suivie
+  // au chargement, onglet en arrière-plan, défilement très rapide), on révèle
+  // ce qui reste. Rien ne doit pouvoir rester invisible.
+  window.setTimeout(function () {
+    Array.prototype.forEach.call(document.querySelectorAll('.reveal:not(.is-in)'), function (el) {
+      el.style.transitionDelay = '0ms';
+      activate(el);
+      io.unobserve(el);
+    });
+  }, 3000);
+
   Array.prototype.forEach.call(revealables, function (el, i) {
     // Léger décalage en cascade pour les éléments d'une même grille
     var parent = el.parentElement;
