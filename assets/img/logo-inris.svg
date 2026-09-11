@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 912 396" width="912" height="396" role="img" aria-label="INRI'S Formations">
+  <title>INRI'S Formations</title>
+  <defs>
+    <linearGradient id="blades" gradientUnits="userSpaceOnUse" x1="54" y1="342" x2="342" y2="54">
+      <stop offset="0" stop-color="#281B59"/><stop offset="1" stop-color="#C10058"/>
+    </linearGradient>
+    <linearGradient id="disc" gradientUnits="userSpaceOnUse" x1="117" y1="287" x2="285" y2="105">
+      <stop offset="0" stop-color="#2B1A58"/><stop offset=".5" stop-color="#85125A"/><stop offset="1" stop-color="#C10058"/>
+    </linearGradient>
+    <path id="blade" d="M122,54 A92,92 0 0 1 278,54 A278,278 0 0 1 122,54 Z"/>
+  </defs>
+
+  <g transform="scale(.99)">
+    <g fill="url(#blades)">
+      <use href="#blade"/>
+      <use href="#blade" transform="rotate(90 200 198)"/>
+      <use href="#blade" transform="rotate(180 200 198)"/>
+      <use href="#blade" transform="rotate(270 200 198)"/>
+    </g>
+    <circle cx="200" cy="198" r="113" fill="url(#disc)"/>
+    <g transform="translate(200 198) scale(.93) translate(-200 -198)"
+       fill="none" stroke="#fff" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="163" cy="128" r="13" fill="#fff" stroke="none"/>
+      <path d="M163,149 V222"/>
+      <path d="M163,170 L138,186 L159,206"/>
+      <path d="M163,170 L188,186 L167,206"/>
+      <path d="M163,222 L151,285"/>
+      <path d="M163,222 L178,285"/>
+      <circle cx="243" cy="124" r="13" fill="#fff" stroke="none"/>
+      <path d="M243,145 L237,208"/>
+      <path d="M242,165 L259,188 L253,206"/>
+      <path d="M237,208 L221,253 L214,284"/>
+      <path d="M237,208 L260,249 L256,286"/>
+    </g>
+  </g>
+
+  <g fill="#1F3149" font-family="Montserrat, 'Helvetica Neue', Arial, sans-serif" font-weight="800">
+    <text x="440" y="230" font-size="157" letter-spacing="-2">INRI'S</text>
+    <text x="444" y="286" font-size="42" letter-spacing="7.5">FORMATIONS</text>
+  </g>
+</svg>

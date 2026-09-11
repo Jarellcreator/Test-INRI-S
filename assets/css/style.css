@@ -277,25 +277,39 @@ p { margin: 0; }
   gap: 28px;
 }
 
-.logo { display: flex; align-items: center; gap: 12px; flex: none; }
-.logo__mark { width: 42px; height: 42px; flex: none; }
+/* Logo officiel : le pictogramme (pastille + quatre pétales) est un SVG,
+   le bloc typographique reste du texte réel en Montserrat ExtraBold — même
+   police que la charte, et il reste net à toutes les tailles.
+   Le bleu #1F3149 de la charte n'étant pas lisible sur fond sombre, le bloc
+   typographique passe en #F9FAFE (la couleur « background » de la charte). */
+.logo { display: flex; align-items: center; gap: 13px; flex: none; }
+.logo__mark { width: 46px; height: 46px; flex: none; }
 
-.logo__text {
+.logo__name {
+  display: block;
   font-family: var(--font-title);
   font-weight: 800;
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1;
-  letter-spacing: -.01em;
+  letter-spacing: -.015em;
+  color: var(--text);
 }
 
 .logo__sub {
   display: block;
-  font-size: 9px;
+  font-family: var(--font-title);
+  font-size: 8.5px;
   font-weight: 700;
-  letter-spacing: .3em;
-  color: var(--text-3);
-  margin-top: 4px;
+  letter-spacing: .29em;
+  line-height: 1;
+  color: var(--text);
+  margin-top: 6px;
 }
+
+.logo--lg { gap: 15px; }
+.logo--lg .logo__mark { width: 56px; height: 56px; }
+.logo--lg .logo__name { font-size: 24px; }
+.logo--lg .logo__sub { font-size: 10px; margin-top: 7px; }
 
 .nav { margin-left: auto; }
 

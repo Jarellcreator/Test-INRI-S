@@ -9,7 +9,9 @@ dépendance ni étape de build. Ouvrir `index.html` suffit.
 index.html              Page complète
 assets/css/style.css    Feuille de style unique (tokens en tête de fichier)
 assets/js/main.js       Header collant, menu mobile, accordéon FAQ, animations
-assets/img/favicon.svg  Favicon
+assets/img/logo-inris.svg        Logo complet, couleurs officielles (typo #1F3149)
+assets/img/logo-inris-blanc.svg  Logo complet, typo blanche (fonds sombres)
+assets/img/favicon.svg           Favicon (pictogramme seul)
 ```
 
 ## Charte graphique appliquée
@@ -47,8 +49,11 @@ Tous les tokens sont regroupés dans le bloc `:root` en tête de
 
 ## À compléter avant mise en ligne
 
-- [ ] **Logo** : `assets/img/favicon.svg` et le `<svg class="logo__mark">` dans
-      `index.html` sont une interprétation. Remplacer par le fichier officiel.
+- [ ] **Logo** : le pictogramme est une **reconstruction vectorielle** du logo
+      officiel, retracée à partir du visuel fourni (aucun fichier source n'était
+      disponible). Il est fidèle à l'œil mais n'est pas le fichier d'origine :
+      si le vectoriel officiel existe, remplacer le `<symbol id="inrisMark">`
+      dans `index.html` et les fichiers `assets/img/logo-inris*.svg`.
 - [ ] **Témoignages** (section `#avis`) : contenus marqués `TODO` dans le HTML,
       à remplacer par de vrais avis clients.
 - [ ] **Téléphone et e-mail** : `01 00 00 00 00` et
@@ -56,6 +61,28 @@ Tous les tokens sont regroupés dans le bloc `:root` en tête de
 - [ ] **Liens légaux** du footer (mentions légales, confidentialité, CGV).
 - [ ] **Liens réseaux sociaux** du footer (`href="#"`).
 - [ ] Brancher les CTA sur le vrai formulaire de contact / devis.
+
+## Logo
+
+Le logo est intégré en deux parties :
+
+- **le pictogramme** (pastille dégradée, quatre pétales, deux silhouettes) est
+  un SVG défini une seule fois dans `index.html` via `<symbol id="inrisMark">`,
+  puis réutilisé dans le header et le footer avec `<use>` ;
+- **le bloc typographique** (« INRI'S » / « FORMATIONS ») reste du texte réel
+  en Montserrat ExtraBold — la police de la charte — ce qui le garde net à
+  toutes les tailles et sélectionnable.
+
+La charte prévoit le bloc typographique en bleu `#1F3149`, illisible sur fond
+sombre : il passe donc en `#F9FAFE`, la couleur « background » de la charte.
+Le fichier `assets/img/logo-inris.svg` conserve la version officielle en
+`#1F3149` pour les supports sur fond clair.
+
+> Note : les fichiers `logo-inris*.svg` composent le texte avec `<text>` en
+> Montserrat. Utilisés dans une balise `<img>`, ils retomberont sur une police
+> système, la police externe n'étant pas chargée dans ce contexte. Pour un
+> usage hors du site (impression, e-mailing), demander une version aux
+> contours vectorisés.
 
 ## Notes techniques
 
