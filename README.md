@@ -73,9 +73,17 @@ Sur fond clair, la charte retrouve ses rôles d'origine — background `#F9FAFE`
 texte `#1F3149`, texte bis `#9AA6B7` — et le dégradé `#281B59 → #C10058` ses
 valeurs exactes (sur fond sombre il devait être éclairci pour rester lisible).
 
-**L'accent secondaire n'est pas le même dans les deux versions** : vert
-`#00E5AC` sur fond sombre, rose `#C10058` sur fond clair. Tout passe par les
-tokens `--accent2*`, aucune valeur n'est écrite en dur.
+**L'accent secondaire est le vert de charte dans les deux versions**, assombri
+en `#00815C` sur fond clair où `#00E5AC` ne tient pas le contraste (1,7:1).
+Tout passe par les tokens `--accent2*`.
+
+Deux endroits échappent volontairement à cet accent :
+
+- **les coches des cartes formation** prennent le violet `--check-formation` —
+  le vert y est écarté, et le rose sur une petite forme se lit comme une
+  alerte. L'étiquette « Reconversion » reste verte ;
+- **l'étiquette « Le plus demandé »** est une pastille en dégradé plein avec
+  texte blanc, plutôt qu'un aplat rose cerné de rose qui virait au rouge.
 
 ## Logo
 
