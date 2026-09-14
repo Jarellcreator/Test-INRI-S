@@ -73,9 +73,11 @@ Sur fond clair, la charte retrouve ses rôles d'origine — background `#F9FAFE`
 texte `#1F3149`, texte bis `#9AA6B7` — et le dégradé `#281B59 → #C10058` ses
 valeurs exactes (sur fond sombre il devait être éclairci pour rester lisible).
 
-**L'accent secondaire est le vert de charte dans les deux versions**, assombri
-en `#00815C` sur fond clair où `#00E5AC` ne tient pas le contraste (1,7:1).
-Tout passe par les tokens `--accent2*`.
+**L'accent secondaire est le vert de charte dans les deux versions.** Sur fond
+clair il se dédouble selon le rôle : `--accent2` reste le `#00E5AC` de la
+charte pour les formes pleines et les traits épais (coches du hero, « Places
+ouvertes »), où il est parfaitement lisible ; `--accent2-text` l'assombrit en
+`#00815C` pour le vrai texte, où `#00E5AC` tombe à 1,7:1 sur blanc.
 
 Deux endroits échappent volontairement à cet accent :
 

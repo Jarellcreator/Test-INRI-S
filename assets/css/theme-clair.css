@@ -62,17 +62,21 @@
   --ghost-bg-hover: rgba(31, 49, 73, .05);
   --icon-bg: var(--gradient);
 
-  /* Accent secondaire : le vert de charte revient, mais assombri. #00E5AC
-     plafonne à 1,7:1 sur blanc ; #00815C garde la teinte et monte à 5,3:1.
-     Il ne sert pas dans les cartes formation (voir --check-formation). */
-  --accent2: #00815C;
+  /* Accent secondaire — dosage repris à l'identique de la première version
+     claire. Deux verts, chacun dans son rôle :
+       --accent2      #00E5AC, le vert de charte tel quel. Il porte les formes
+                      pleines et les traits épais (puce, coches du hero,
+                      « Places ouvertes »), où il reste parfaitement lisible.
+       --accent2-text #00815C, même teinte assombrie. Réservé au vrai texte,
+                      où #00E5AC tombe à 1,7:1 sur blanc. */
+  --accent2: #00E5AC;
   --accent2-text: #00815C;
-  --accent2-soft: rgba(0, 129, 92, .09);
-  --accent2-border: rgba(0, 129, 92, .26);
-  --accent2-ring: rgba(0, 129, 92, .13);
-  --accent2-glow: rgba(0, 229, 172, .3);
-  --accent2-shadow: 0 16px 40px -14px rgba(0, 129, 92, .45);
-  --focus: #00815C;
+  --accent2-soft: rgba(0, 229, 172, .12);
+  --accent2-border: rgba(0, 229, 172, .32);
+  --accent2-ring: rgba(0, 229, 172, .16);
+  --accent2-glow: rgba(0, 229, 172, .25);
+  --accent2-shadow: 0 18px 45px -14px rgba(0, 229, 172, .6);
+  --focus: #00E5AC;
 
   /* Violet de charte pour les coches des cartes formation. */
   --check-formation: #3E2578;
@@ -111,6 +115,10 @@
 .eyebrow,
 .btn--ghost,
 .socials a { background: #FFFFFF; box-shadow: var(--shadow-sm); }
+
+/* Une pastille de 7 px en #00E5AC disparaît sur du blanc : la puce des
+   bandeaux prend le vert assombri, comme dans la première version claire. */
+.eyebrow::before { background: var(--accent2-text); box-shadow: 0 0 0 4px rgba(0, 129, 92, .12); }
 
 
 

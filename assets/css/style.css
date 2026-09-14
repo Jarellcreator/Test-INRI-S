@@ -467,7 +467,7 @@ p { margin: 0; }
   color: var(--text-2);
 }
 
-.chip svg { width: 15px; height: 15px; color: var(--accent2-text); flex: none; }
+.chip svg { width: 15px; height: 15px; color: var(--accent2); flex: none; }
 
 /* Visuel héro : carte de parcours en verre */
 .hero__visual { position: relative; }
@@ -515,7 +515,7 @@ p { margin: 0; }
   padding: 7px 13px;
   border-radius: var(--r-pill);
   background: var(--accent2-soft);
-  color: var(--accent2-text);
+  color: var(--accent2);
   border: 1px solid var(--accent2-border);
   white-space: nowrap;
 }
