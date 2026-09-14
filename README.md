@@ -73,11 +73,15 @@ Sur fond clair, la charte retrouve ses rôles d'origine — background `#F9FAFE`
 texte `#1F3149`, texte bis `#9AA6B7` — et le dégradé `#281B59 → #C10058` ses
 valeurs exactes (sur fond sombre il devait être éclairci pour rester lisible).
 
-**L'accent secondaire est le vert de charte dans les deux versions.** Sur fond
-clair il se dédouble selon le rôle : `--accent2` reste le `#00E5AC` de la
-charte pour les formes pleines et les traits épais (coches du hero, « Places
-ouvertes »), où il est parfaitement lisible ; `--accent2-text` l'assombrit en
-`#00815C` pour le vrai texte, où `#00E5AC` tombe à 1,7:1 sur blanc.
+**L'accent secondaire est un bleu — essai en cours.** Le vert `#00E5AC` de la
+charte a été mis de côté pour évaluer un remplacement. Le bleu retenu
+(`#5AA9FF` sur fond sombre, `#1565D8` sur fond clair) est dérivé du `#1F3149`
+de la charte remonté en saturation : il appartient donc à la palette, tranche
+du dégradé violet-rose, et ne porte aucune connotation d'alerte. Un seul ton
+suffit à chaque version, formes et texte compris.
+
+Revenir au vert = rétablir le bloc `--accent2*` dans `style.css` et
+`theme-clair.css` (voir l'historique git, commit `efa548d`).
 
 Deux endroits échappent volontairement à cet accent :
 
