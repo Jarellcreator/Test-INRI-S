@@ -74,23 +74,22 @@
   --ghost-bg-hover: rgba(249, 250, 254, .09);
   --icon-bg: linear-gradient(150deg, rgba(40, 27, 89, .9), rgba(193, 0, 88, .55));
 
-  /* Accent secondaire : le vert #00E5AC, seule couleur classée
-     « SECONDAIRES » dans la charte. Le rose et le violet étant déjà pris par
-     le dégradé principal, c'est le seul accent disponible sans sortir de la
-     charte. Sur fond clair il se dédouble par lisibilité (theme-clair.css). */
-  --accent2: #00E5AC;
-  --accent2-text: #00E5AC;
-  --accent2-soft: rgba(0, 229, 172, .12);
-  --accent2-border: rgba(0, 229, 172, .32);
-  --accent2-ring: rgba(0, 229, 172, .16);
-  --accent2-glow: rgba(0, 229, 172, .25);
-  --accent2-shadow: 0 18px 45px -14px rgba(0, 229, 172, .6);
-  --focus: #00E5AC;
+  /* Accent secondaire — 100 % charte, sans vert. Le dégradé et le violet
+     #281B59 portent tout, avec un traitement par rôle :
+       formes pleines (puce, conteneurs d'icônes, étiquette phare) → dégradé ;
+       traits et coches                                            → violet ;
+       texte d'état (« Validé », « En cours »)                     → rose.
+     Le rose ne sert JAMAIS en aplat teinté sur une petite forme : c'est ce
+     qui lui donnait un air de voyant d'alerte. En texte, il passe très bien. */
+  --accent2: #A08CE0;
+  --accent2-strong: #FF7FB5;
+  --accent2-soft: rgba(160, 140, 224, .12);
+  --accent2-border: rgba(160, 140, 224, .32);
+  --accent2-ring: rgba(160, 140, 224, .18);
+  --accent2-glow: rgba(193, 0, 88, .25);
+  --accent2-shadow: 0 18px 45px -14px rgba(160, 140, 224, .5);
+  --focus: #A08CE0;
 
-  /* Les coches des cartes formation sont hors de l'accent secondaire : le
-     vert y est écarté, et le rose sur une petite forme se lit comme une
-     alerte. Violet de la famille de marque, neutre et lisible. */
-  --check-formation: #A78BFA;
   --star: #FFC45C;
   --grad-text: linear-gradient(100deg, #A78BFA 0%, #E0479A 55%, #FF7FB5 100%);
   --grad-num: linear-gradient(100deg, #C4B5FD, #E0479A 70%);
@@ -216,6 +215,8 @@ p { margin: 0; }
   width: 7px;
   height: 7px;
   border-radius: 50%;
+  /* Aplat plutôt que dégradé : sur 7 px, un dégradé qui démarre au violet
+     foncé s'éteint contre le fond sombre. */
   background: var(--accent2);
   box-shadow: 0 0 0 4px var(--accent2-ring);
 }
@@ -238,7 +239,14 @@ p { margin: 0; }
   color: transparent;
 }
 
-.mint { color: var(--accent2-text); }
+/* Emphase dans un titre : le dégradé de marque en texte. Une couleur pleine
+   se confondrait avec le bleu du corps de texte sur fond clair. */
+.mint {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 /* ----------------------------- 4. Boutons ------------------------------ */
 .btn {
@@ -361,7 +369,7 @@ p { margin: 0; }
   transition: color .2s;
 }
 
-.header__phone:hover { color: var(--accent2-text); }
+.header__phone:hover { color: var(--accent2-strong); }
 .header__phone svg { width: 16px; height: 16px; }
 
 /* En grid, les trois barres occupent des lignes étirées : l'espacement réel
@@ -488,7 +496,7 @@ p { margin: 0; }
   text-transform: uppercase;
   padding: 7px 13px;
   border-radius: var(--r-pill);
-  background: var(--accent2-soft);
+  background: transparent;
   color: var(--accent2);
   border: 1px solid var(--accent2-border);
   white-space: nowrap;
@@ -539,7 +547,7 @@ p { margin: 0; }
   letter-spacing: .04em;
 }
 
-.step.is-done .step__state { color: var(--accent2-text); }
+.step.is-done .step__state { color: var(--accent2-strong); }
 
 .pathcard__foot {
   margin-top: 22px;
@@ -599,8 +607,8 @@ p { margin: 0; }
 }
 
 .floating__icon svg { width: 18px; height: 18px; color: #fff; }
-.floating__icon--mint { background: var(--accent2-soft); border: 1px solid var(--accent2-border); }
-.floating__icon--mint svg { color: var(--accent2-text); }
+.floating__icon--mint { background: var(--gradient); border: 1px solid transparent; }
+.floating__icon--mint svg { color: #fff; }
 .floating__k { display: block; font-family: var(--font-title); font-weight: 800; font-size: 15px; line-height: 1.2; }
 .floating__s { display: block; font-size: 12px; color: var(--text-3); line-height: 1.45; }
 
@@ -755,10 +763,12 @@ p { margin: 0; }
   color: #fff;
 }
 
+/* Étiquette secondaire : contour, pour la distinguer de l'étiquette phare
+   qui est en dégradé plein. */
 .card__tag--mint {
-  background: var(--accent2-soft);
+  background: transparent;
   border-color: var(--accent2-border);
-  color: var(--accent2-text);
+  color: var(--accent2);
 }
 
 .card h3 { font-size: 1.32rem; }
@@ -774,7 +784,7 @@ p { margin: 0; }
   align-items: flex-start;
 }
 
-.card__list svg { width: 15px; height: 15px; color: var(--check-formation); flex: none; margin-top: 5px; }
+.card__list svg { width: 15px; height: 15px; color: var(--accent2); flex: none; margin-top: 5px; }
 
 .card__link {
   margin-top: auto;
@@ -848,12 +858,12 @@ p { margin: 0; }
   display: grid;
   place-items: center;
   border-radius: 8px;
-  background: var(--accent2-soft);
-  border: 1px solid var(--accent2-border);
+  background: var(--gradient);
+  border: 1px solid transparent;
   margin-top: 2px;
 }
 
-.checklist__ico svg { width: 13px; height: 13px; color: var(--accent2-text); }
+.checklist__ico svg { width: 13px; height: 13px; color: #fff; }
 .checklist strong { color: var(--text); font-weight: 700; }
 
 .panel {
@@ -1067,7 +1077,7 @@ p { margin: 0; }
 
 .footer__list { display: grid; gap: 11px; }
 .footer__list a { font-size: 14.5px; color: var(--text-3); transition: color .2s; }
-.footer__list a:hover { color: var(--accent2-text); }
+.footer__list a:hover { color: var(--accent2-strong); }
 
 .socials { display: flex; gap: 10px; margin-top: 24px; }
 

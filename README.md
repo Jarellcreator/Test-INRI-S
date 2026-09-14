@@ -73,18 +73,22 @@ Sur fond clair, la charte retrouve ses rôles d'origine — background `#F9FAFE`
 texte `#1F3149`, texte bis `#9AA6B7` — et le dégradé `#281B59 → #C10058` ses
 valeurs exactes (sur fond sombre il devait être éclairci pour rester lisible).
 
-**L'accent secondaire est le vert `#00E5AC`**, seule couleur classée
-« SECONDAIRES » dans la charte. Sur fond clair il se dédouble par lisibilité :
-`#00E5AC` sur les formes pleines et les traits épais, `#00815C` (même teinte
-assombrie) dès qu'il porte du texte — `#00E5AC` n'atteint que 1,7:1 sur blanc.
+**Il n'y a pas d'accent secondaire distinct : le dégradé et le violet portent
+tout.** Le vert `#00E5AC` de la charte n'est pas utilisé. Chaque rôle a son
+traitement, ce qui évite le tout-rose qui virait au voyant d'alerte :
 
-Deux endroits échappent volontairement à cet accent :
+| Rôle | Traitement |
+| --- | --- |
+| Formes pleines : conteneurs d'icônes, étiquette phare | Dégradé plein, pictogramme ou texte en réserve blanche |
+| Traits et coches | Violet `#281B59` (clair) / `#A08CE0` (sombre) |
+| Étiquettes secondaires | Contour violet, fond transparent |
+| Texte d'état (« Validé », « En cours ») | Rose `#C10058` (clair) / `#FF7FB5` (sombre) |
+| Emphase dans un titre (« 100 % ») | Texte en dégradé |
 
-- **les coches des cartes formation** prennent le violet `--check-formation` —
-  le vert y est écarté, et le rose sur une petite forme se lit comme une
-  alerte. L'étiquette « Reconversion » reste verte ;
-- **l'étiquette « Le plus demandé »** est une pastille en dégradé plein avec
-  texte blanc, plutôt qu'un aplat rose cerné de rose qui virait au rouge.
+Règle à tenir : **le rose ne s'emploie jamais en aplat teinté sur une petite
+forme.** C'est cette combinaison — pastille de quelques pixels, fond rose pâle,
+liseré rose — qui produisait une sensation de rouge d'échec. En texte, le même
+rose passe très bien.
 
 ## Logo
 
