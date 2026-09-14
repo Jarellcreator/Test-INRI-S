@@ -1,0 +1,196 @@
+---
+/**
+ * Gabarit des pages formation.
+ *
+ * Une seule page écrite ici produit AUTANT de pages qu'il y a d'entrées dans
+ * src/data/formations.js. Ajouter une formation dans le fichier de données
+ * suffit à créer sa page, sa carte d'accueil et son entrée de pied de page.
+ */
+import Base from '../../layouts/Base.astro';
+import { formations } from '../../data/formations.js';
+
+export function getStaticPaths() {
+  return formations.map((f) => ({
+    params: { slug: f.slug },
+    props: { formation: f, autres: formations.filter((a) => a.slug !== f.slug) },
+  }));
+}
+
+const { formation: f, autres } = Astro.props;
+
+const etapes = [
+  { titre: 'Évaluation de départ', texte: 'Un bilan de votre niveau réel définit le volume d’heures et la durée du stage.' },
+  { titre: 'Théorie encadrée', texte: 'Sessions intensives avec un formateur, plutôt que des révisions étalées sur des mois.' },
+  { titre: 'Pratique intensive', texte: 'Plusieurs heures par jour avec un moniteur dédié : les acquis s’installent sans se perdre.' },
+  { titre: 'Examen & réussite', texte: 'La date est calée dès l’inscription. Vous arrivez au sommet de votre préparation.' },
+];
+---
+
+<Base
+  titre={`${f.titre} — INRI'S Formations`}
+  description={`${f.description} Organisme certifié Qualiopi, formation finançable jusqu'à 100 % via le CPF.`}
+  theme="sombre"
+  racine="/"
+>
+
+  <!-- ====================== HERO ====================== -->
+  <section class="hero hero--page">
+    <div class="wrap">
+      <nav class="fil" aria-label="Fil d'Ariane">
+        <a href="/">Accueil</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#formations">Nos formations</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{f.titreCourt}</span>
+      </nav>
+
+      <span class="eyebrow">{f.accroche}</span>
+      <h1 class="h1">{f.titre}</h1>
+      <p class="lead">{f.description}</p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#contact">
+          Demander un devis
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="#financement">Vérifier mon éligibilité CPF</a>
+      </div>
+
+      <ul class="hero__trust">
+        <li class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>
+          Organisme certifié Qualiopi
+        </li>
+        <li class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>
+          Jusqu'à 100 % financé par le CPF
+        </li>
+        {f.duree && (
+          <li class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            {f.duree}
+          </li>
+        )}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====================== CE QUE COMPREND LE PARCOURS ====================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="reveal">
+          <span class="eyebrow">Le parcours</span>
+          <h2 class="h2">Ce que comprend<br>cette formation</h2>
+          <ul class="checklist">
+            {f.points.map((p) => (
+              <li>
+                <span class="checklist__ico">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>
+                </span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- TODO : bloc à compléter par INRI'S — programme détaillé, volume
+             horaire, prérequis et tarifs. Je ne dispose pas de ces données. -->
+        <aside class="panel reveal">
+          <span class="eyebrow" style="margin-bottom:16px">En pratique</span>
+          <h3 class="h3">Les informations du stage</h3>
+          <div class="panel__divider"></div>
+          <div class="mini"><span>Durée</span><span>{f.duree ?? 'À préciser'}</span></div>
+          <div class="mini"><span>Prérequis</span><span>À préciser</span></div>
+          <div class="mini"><span>Volume horaire</span><span>À préciser</span></div>
+          <div class="mini"><span>Tarif</span><span>Sur devis</span></div>
+          <div class="mini"><span>Lieux de conduite</span><span>300+ en France</span></div>
+          <a class="btn btn--primary btn--block" href="#contact" style="margin-top:30px">
+            Obtenir le programme détaillé
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== DÉROULÉ ====================== -->
+  <section class="section" id="deroule">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Le déroulé</span>
+        <h2 class="h2">Quatre étapes,<br><span class="grad-text">zéro temps mort</span></h2>
+      </div>
+      <div class="method">
+        {etapes.map((e, i) => (
+          <article class="method__item reveal">
+            <span class="method__num">ÉTAPE {String(i + 1).padStart(2, '0')}</span>
+            <h3>{e.titre}</h3>
+            <p>{e.texte}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FINANCEMENT ====================== -->
+  <section class="section" id="financement">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Financement</span>
+        <h2 class="h2">Financé jusqu'à <span class="mint">100 %</span></h2>
+        <p class="lead" style="margin-inline:auto">
+          INRI'S Formations est un organisme certifié Qualiopi : cette formation est
+          éligible au Compte Personnel de Formation. Un conseiller vérifie votre
+          éligibilité et monte le dossier avec vous.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== AUTRES FORMATIONS ====================== -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Nos autres formations</span>
+        <h2 class="h2">Explorer les<br><span class="grad-text">autres parcours</span></h2>
+      </div>
+      <div class="cards">
+        {autres.map((a) => (
+          <article class="card reveal">
+            <span class="card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={a.icone} />
+            </span>
+            <h3>{a.titre}</h3>
+            <p>{a.description}</p>
+            <a class="card__link" href={`/formations/${a.slug}/`}>
+              <span>En savoir plus</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CTA FINAL ====================== -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2 class="h2">Prêt à démarrer<br>{f.titreCourt}&nbsp;?</h2>
+        <p>
+          Parlez-en à un conseiller INRI'S : éligibilité CPF, durée du stage,
+          lieu de conduite le plus proche — vous avez toutes les réponses en un appel.
+        </p>
+        <div class="cta__actions">
+          <a class="btn btn--light" href="tel:+33000000000">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+            Être rappelé
+          </a>
+          <a class="btn btn--outline" href="mailto:contact@inris-formations.com">Demander un devis gratuit</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>

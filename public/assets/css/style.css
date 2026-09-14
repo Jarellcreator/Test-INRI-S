@@ -418,6 +418,14 @@ p { margin: 0; }
 }
 
 .hero h1 { font-size: clamp(2.5rem, 5vw, 3.7rem); }
+
+/* Hero des pages internes : une seule colonne, donc moins de hauteur. */
+.hero--page {
+  padding-top: calc(var(--header-h) + clamp(30px, 4vw, 52px));
+  padding-bottom: clamp(24px, 3vw, 40px);
+}
+
+.hero--page h1 { font-size: clamp(2.1rem, 4.2vw, 3.1rem); }
 .hero h1 em { font-style: normal; }
 
 .hero__actions {
@@ -823,7 +831,7 @@ p { margin: 0; }
   font-size: 13px;
   letter-spacing: .1em;
   color: transparent;
-  background: var(--gradient-line);
+  background: var(--grad-text);
   -webkit-background-clip: text;
   background-clip: text;
   display: block;
@@ -1106,6 +1114,21 @@ p { margin: 0; }
   font-size: 13.5px;
   color: var(--text-3);
 }
+
+/* Fil d'Ariane des pages internes */
+.fil {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text-3);
+  margin-bottom: 26px;
+}
+
+.fil a { transition: color .2s; }
+.fil a:hover { color: var(--text); }
+.fil [aria-current] { color: var(--text-2); }
 
 .theme-switch {
   display: inline-flex;

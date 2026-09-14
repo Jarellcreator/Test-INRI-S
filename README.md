@@ -3,15 +3,66 @@
 Page d'accueil statique (HTML / CSS / JS), thème sombre premium, sans aucune
 dépendance ni étape de build. Ouvrir `index.html` suffit.
 
+## Démarrer
+
+```bash
+npm install
+npm run dev      # serveur local sur http://localhost:4321
+npm run build    # génère le site statique dans dist/
+npm run preview  # prévisualise dist/
+```
+
+Le site est bâti avec **Astro**. `npm run build` produit des fichiers HTML
+statiques dans `dist/` : aucun serveur applicatif n'est nécessaire, le dossier
+se dépose tel quel chez n'importe quel hébergeur (Netlify, Vercel, OVH…).
+
 ## Structure
 
 ```
-index.html              Page complète
-assets/css/style.css    Feuille de style unique (tokens en tête de fichier)
-assets/js/main.js       Header collant, menu mobile, accordéon FAQ, animations
-assets/img/logo-inris.svg        Logo officiel, extrait du PDF de charte
-assets/img/logo-inris-blanc.svg  Idem, bloc typographique en blanc
-assets/img/picto-inris.svg       Pictogramme seul (favicon)
+src/
+  data/formations.js          Source unique des formations
+  layouts/Base.astro          <head>, header, footer — écrits UNE fois
+  components/
+    Header.astro              Header du site
+    Footer.astro              Pied de page
+    Accueil.astro             Contenu de la page d'accueil
+    CarteFormation.astro      Une carte, construite depuis les données
+  pages/
+    index.astro               /            (thème sombre)
+    clair.astro               /clair/      (thème clair)
+    formations/[slug].astro   /formations/<slug>/ — une page par formation
+public/
+  assets/css/style.css        Feuille de style unique (tokens en tête)
+  assets/css/theme-clair.css  Déclinaison claire : redéfinit les tokens
+  assets/js/main.js           Header collant, menu, accordéon, animations
+  assets/img/                 Logo officiel et pictogramme
+```
+
+## Ajouter une formation
+
+Ajouter un objet dans `src/data/formations.js`. Cela crée automatiquement :
+
+- sa carte sur la page d'accueil ;
+- sa page complète à `/formations/<slug>/` ;
+- son entrée dans le menu du pied de page ;
+- ses liens croisés depuis les autres pages formation.
+
+Aucun autre fichier à modifier. C'est le principe de toute la structure : le
+header, le pied de page et le gabarit des pages formation n'existent qu'en un
+seul exemplaire.
+
+## Ajouter une page
+
+Créer un fichier dans `src/pages/`. Le nom du fichier devient l'adresse
+(`src/pages/contact.astro` → `/contact/`). Utiliser le gabarit :
+
+```astro
+---
+import Base from '../layouts/Base.astro';
+---
+<Base titre="…" description="…" theme="sombre" racine="/">
+  …contenu…
+</Base>
 ```
 
 ## Charte graphique appliquée

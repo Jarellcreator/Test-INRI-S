@@ -1,0 +1,29 @@
+---
+/** Une carte de formation, construite à partir d'une entrée de formations.js. */
+const { formation: f } = Astro.props;
+---
+
+<article class="card reveal">
+  {f.etiquette && (
+    <span class={f.etiquette.style === 'secondaire' ? 'card__tag card__tag--mint' : 'card__tag'}>
+      {f.etiquette.texte}
+    </span>
+  )}
+  <span class="card__icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={f.icone} />
+  </span>
+  <h3>{f.titre}</h3>
+  <p>{f.description}</p>
+  <ul class="card__list">
+    {f.points.map((p) => (
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg>
+        {p}
+      </li>
+    ))}
+  </ul>
+  <a class="card__link" href={`/formations/${f.slug}/`}>
+    <span>En savoir plus</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</article>

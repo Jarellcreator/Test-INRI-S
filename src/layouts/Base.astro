@@ -1,0 +1,66 @@
+---
+/**
+ * Gabarit de toutes les pages.
+ * Le <head>, le header et le footer ne sont écrits qu'ici : une modification
+ * se répercute sur l'ensemble du site.
+ *
+ * Props :
+ *   titre        balise <title> et titre d'onglet
+ *   description  meta description (référencement)
+ *   theme        'sombre' (défaut) ou 'clair'
+ *   racine       '' sur l'accueil, '/' sur les pages internes (ancres du menu)
+ */
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const {
+  titre,
+  description,
+  theme = 'sombre',
+  racine = '/',
+} = Astro.props;
+
+const couleurTheme = theme === 'clair' ? '#F9FAFE' : '#070512';
+const canonique = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{titre}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content={couleurTheme} />
+  <link rel="canonical" href={canonique} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="INRI'S Formations" />
+  <meta property="og:title" content={titre} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonique} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script is:inline>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  {theme === 'clair' && <link rel="stylesheet" href="/assets/css/theme-clair.css" />}
+  <link rel="icon" href="/assets/img/picto-inris.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <Header theme={theme} racine={racine} />
+
+  <main id="top">
+    <slot />
+  </main>
+
+  <Footer theme={theme} racine={racine} />
+
+  <script is:inline src="/assets/js/main.js" defer></script>
+</body>
+</html>
