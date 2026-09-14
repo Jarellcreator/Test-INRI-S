@@ -62,17 +62,19 @@
   --ghost-bg-hover: rgba(31, 49, 73, .05);
   --icon-bg: var(--gradient);
 
-  /* Accent secondaire — ESSAI, voir style.css. Le bleu tient 5,5:1 sur blanc
-     à une seule valeur : contrairement au vert, il n'a pas besoin d'être
-     dédoublé entre les formes et le texte. */
-  --accent2: #1565D8;
-  --accent2-text: #1565D8;
-  --accent2-soft: rgba(21, 101, 216, .09);
-  --accent2-border: rgba(21, 101, 216, .26);
-  --accent2-ring: rgba(21, 101, 216, .14);
-  --accent2-glow: rgba(90, 169, 255, .3);
-  --accent2-shadow: 0 16px 40px -14px rgba(21, 101, 216, .45);
-  --focus: #1565D8;
+  /* Accent secondaire — le vert de la charte, dédoublé par lisibilité :
+       --accent2      #00E5AC tel quel, sur les formes pleines et les traits
+                      épais, assez larges pour rester lisibles sur blanc ;
+       --accent2-text #00815C, même teinte assombrie, pour le vrai texte —
+                      #00E5AC n'atteint que 1,7:1 sur fond blanc. */
+  --accent2: #00E5AC;
+  --accent2-text: #00815C;
+  --accent2-soft: rgba(0, 229, 172, .12);
+  --accent2-border: rgba(0, 229, 172, .32);
+  --accent2-ring: rgba(0, 229, 172, .16);
+  --accent2-glow: rgba(0, 229, 172, .25);
+  --accent2-shadow: 0 18px 45px -14px rgba(0, 229, 172, .6);
+  --focus: #00E5AC;
 
   /* Violet de charte pour les coches des cartes formation. */
   --check-formation: #3E2578;
@@ -111,6 +113,9 @@
 .eyebrow,
 .btn--ghost,
 .socials a { background: #FFFFFF; box-shadow: var(--shadow-sm); }
+
+/* Une pastille de 7 px en #00E5AC disparaît sur du blanc. */
+.eyebrow::before { background: var(--accent2-text); box-shadow: 0 0 0 4px rgba(0, 129, 92, .12); }
 
 
 

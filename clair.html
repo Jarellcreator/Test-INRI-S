@@ -20,58 +20,16 @@
 <script>document.documentElement.classList.add('js');</script>
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/theme-clair.css">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/picto-inris.svg" type="image/svg+xml">
 </head>
 <body>
-
-<!-- Logo officiel INRI'S Formations : défini une fois, réutilisé via <use>.
-     Source vectorielle également disponible dans assets/img/logo-inris.svg -->
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-  <defs>
-    <linearGradient id="inrisBlades" gradientUnits="userSpaceOnUse" x1="54" y1="342" x2="342" y2="54">
-      <stop offset="0" stop-color="#281B59"/><stop offset="1" stop-color="#C10058"/>
-    </linearGradient>
-    <linearGradient id="inrisDisc" gradientUnits="userSpaceOnUse" x1="117" y1="287" x2="285" y2="105">
-      <stop offset="0" stop-color="#2B1A58"/><stop offset=".5" stop-color="#85125A"/><stop offset="1" stop-color="#C10058"/>
-    </linearGradient>
-    <path id="inrisBlade" d="M122,54 A92,92 0 0 1 278,54 A278,278 0 0 1 122,54 Z"/>
-
-    <symbol id="inrisMark" viewBox="0 0 400 400">
-      <g fill="url(#inrisBlades)">
-        <use href="#inrisBlade"/>
-        <use href="#inrisBlade" transform="rotate(90 200 198)"/>
-        <use href="#inrisBlade" transform="rotate(180 200 198)"/>
-        <use href="#inrisBlade" transform="rotate(270 200 198)"/>
-      </g>
-      <circle cx="200" cy="198" r="113" fill="url(#inrisDisc)"/>
-      <g transform="translate(200 198) scale(.93) translate(-200 -198)"
-         fill="none" stroke="#fff" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="163" cy="128" r="13" fill="#fff" stroke="none"/>
-        <path d="M163,149 V222"/>
-        <path d="M163,170 L138,186 L159,206"/>
-        <path d="M163,170 L188,186 L167,206"/>
-        <path d="M163,222 L151,285"/>
-        <path d="M163,222 L178,285"/>
-        <circle cx="243" cy="124" r="13" fill="#fff" stroke="none"/>
-        <path d="M243,145 L237,208"/>
-        <path d="M242,165 L259,188 L253,206"/>
-        <path d="M237,208 L221,253 L214,284"/>
-        <path d="M237,208 L260,249 L256,286"/>
-      </g>
-    </symbol>
-  </defs>
-</svg>
 
 <!-- ====================== HEADER ====================== -->
 <header class="header" id="header">
   <div class="header__inner">
 
-    <a class="logo" href="#top" aria-label="INRI'S Formations — accueil">
-      <svg class="logo__mark" viewBox="0 0 400 400" aria-hidden="true"><use href="#inrisMark"/></svg>
-      <span class="logo__word">
-        <span class="logo__name">INRI'S</span>
-        <span class="logo__sub">FORMATIONS</span>
-      </span>
+    <a class="logo" href="#top">
+      <img class="logo__img" src="assets/img/logo-inris.svg" alt="INRI'S Formations" width="130" height="59">
     </a>
 
     <nav class="nav" id="nav" aria-label="Navigation principale">
@@ -671,12 +629,8 @@
     <div class="footer__grid">
 
       <div>
-        <a class="logo logo--lg" href="#top" aria-label="INRI'S Formations — retour en haut">
-          <svg class="logo__mark" viewBox="0 0 400 400" aria-hidden="true"><use href="#inrisMark"/></svg>
-          <span class="logo__word">
-            <span class="logo__name">INRI'S</span>
-            <span class="logo__sub">FORMATIONS</span>
-          </span>
+        <a class="logo logo--lg" href="#top">
+          <img class="logo__img" src="assets/img/logo-inris.svg" alt="INRI'S Formations — retour en haut" width="130" height="59">
         </a>
         <p>
           Premier réseau français spécialisé dans les stages de permis accélérés

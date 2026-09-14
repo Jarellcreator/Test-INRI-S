@@ -9,9 +9,9 @@ dépendance ni étape de build. Ouvrir `index.html` suffit.
 index.html              Page complète
 assets/css/style.css    Feuille de style unique (tokens en tête de fichier)
 assets/js/main.js       Header collant, menu mobile, accordéon FAQ, animations
-assets/img/logo-inris.svg        Logo complet, couleurs officielles (typo #1F3149)
-assets/img/logo-inris-blanc.svg  Logo complet, typo blanche (fonds sombres)
-assets/img/favicon.svg           Favicon (pictogramme seul)
+assets/img/logo-inris.svg        Logo officiel, extrait du PDF de charte
+assets/img/logo-inris-blanc.svg  Idem, bloc typographique en blanc
+assets/img/picto-inris.svg       Pictogramme seul (favicon)
 ```
 
 ## Charte graphique appliquée
@@ -73,15 +73,10 @@ Sur fond clair, la charte retrouve ses rôles d'origine — background `#F9FAFE`
 texte `#1F3149`, texte bis `#9AA6B7` — et le dégradé `#281B59 → #C10058` ses
 valeurs exactes (sur fond sombre il devait être éclairci pour rester lisible).
 
-**L'accent secondaire est un bleu — essai en cours.** Le vert `#00E5AC` de la
-charte a été mis de côté pour évaluer un remplacement. Le bleu retenu
-(`#5AA9FF` sur fond sombre, `#1565D8` sur fond clair) est dérivé du `#1F3149`
-de la charte remonté en saturation : il appartient donc à la palette, tranche
-du dégradé violet-rose, et ne porte aucune connotation d'alerte. Un seul ton
-suffit à chaque version, formes et texte compris.
-
-Revenir au vert = rétablir le bloc `--accent2*` dans `style.css` et
-`theme-clair.css` (voir l'historique git, commit `efa548d`).
+**L'accent secondaire est le vert `#00E5AC`**, seule couleur classée
+« SECONDAIRES » dans la charte. Sur fond clair il se dédouble par lisibilité :
+`#00E5AC` sur les formes pleines et les traits épais, `#00815C` (même teinte
+assombrie) dès qu'il porte du texte — `#00E5AC` n'atteint que 1,7:1 sur blanc.
 
 Deux endroits échappent volontairement à cet accent :
 
@@ -93,25 +88,19 @@ Deux endroits échappent volontairement à cet accent :
 
 ## Logo
 
-Le logo est intégré en deux parties :
+Le logo est le **fichier officiel**, extrait en vectoriel du PDF de charte
+graphique (`Charte_graphique_INRIS.pdf`, page 1) avec PyMuPDF. Aucun tracé
+n'est redessiné.
 
-- **le pictogramme** (pastille dégradée, quatre pétales, deux silhouettes) est
-  un SVG défini une seule fois dans `index.html` via `<symbol id="inrisMark">`,
-  puis réutilisé dans le header et le footer avec `<use>` ;
-- **le bloc typographique** (« INRI'S » / « FORMATIONS ») reste du texte réel
-  en Montserrat ExtraBold — la police de la charte — ce qui le garde net à
-  toutes les tailles et sélectionnable.
+Une seule adaptation, et elle est isolée dans un fichier séparé : le bloc
+typographique est en `#1F3149`, illisible sur fond sombre. `logo-inris-blanc.svg`
+le passe en `#F9FAFE` ; tout le reste du fichier est identique. La version
+claire charge `logo-inris.svg`, aux couleurs d'origine.
 
-La charte prévoit le bloc typographique en bleu `#1F3149`, illisible sur fond
-sombre : il passe donc en `#F9FAFE`, la couleur « background » de la charte.
-Le fichier `assets/img/logo-inris.svg` conserve la version officielle en
-`#1F3149` pour les supports sur fond clair.
-
-> Note : les fichiers `logo-inris*.svg` composent le texte avec `<text>` en
-> Montserrat. Utilisés dans une balise `<img>`, ils retomberont sur une police
-> système, la police externe n'étant pas chargée dans ce contexte. Pour un
-> usage hors du site (impression, e-mailing), demander une version aux
-> contours vectorisés.
+> **À signaler au graphiste** : le fichier officiel comporte un filet clair
+> (`#F1F4FE`) qui cerne le pictogramme. Invisible sur fond clair, il se voit
+> sur fond sombre. Si une déclinaison pour fonds sombres existe, elle est
+> préférable — je n'ai rien retouché.
 
 ## Notes techniques
 

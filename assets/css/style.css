@@ -74,19 +74,18 @@
   --ghost-bg-hover: rgba(249, 250, 254, .09);
   --icon-bg: linear-gradient(150deg, rgba(40, 27, 89, .9), rgba(193, 0, 88, .55));
 
-  /* Accent secondaire — ESSAI. Ni vert, ni rose (qui sur une petite forme
-     se lit comme une alerte). Bleu tiré du #1F3149 de la charte, remonté en
-     saturation : il appartient donc à la palette, tranche nettement du
-     dégradé violet-rose, et porte un signal « validé / disponible » sans
-     connotation d'échec. Un seul ton suffit ici, fond et texte compris. */
-  --accent2: #5AA9FF;
-  --accent2-text: #5AA9FF;
-  --accent2-soft: rgba(90, 169, 255, .12);
-  --accent2-border: rgba(90, 169, 255, .3);
-  --accent2-ring: rgba(90, 169, 255, .16);
-  --accent2-glow: rgba(90, 169, 255, .22);
-  --accent2-shadow: 0 18px 45px -14px rgba(90, 169, 255, .55);
-  --focus: #5AA9FF;
+  /* Accent secondaire : le vert #00E5AC, seule couleur classée
+     « SECONDAIRES » dans la charte. Le rose et le violet étant déjà pris par
+     le dégradé principal, c'est le seul accent disponible sans sortir de la
+     charte. Sur fond clair il se dédouble par lisibilité (theme-clair.css). */
+  --accent2: #00E5AC;
+  --accent2-text: #00E5AC;
+  --accent2-soft: rgba(0, 229, 172, .12);
+  --accent2-border: rgba(0, 229, 172, .32);
+  --accent2-ring: rgba(0, 229, 172, .16);
+  --accent2-glow: rgba(0, 229, 172, .25);
+  --accent2-shadow: 0 18px 45px -14px rgba(0, 229, 172, .6);
+  --focus: #00E5AC;
 
   /* Les coches des cartes formation sont hors de l'accent secondaire : le
      vert y est écarté, et le rose sur une petite forme se lit comme une
@@ -112,7 +111,7 @@
   --font-body: "Quicksand", "Segoe UI", system-ui, sans-serif;
 
   /* Rythme */
-  --header-h: 78px;
+  --header-h: 88px;
   --wrap: 1200px;
   --section-y: clamp(72px, 9vw, 130px);
 }
@@ -326,39 +325,13 @@ p { margin: 0; }
   gap: 28px;
 }
 
-/* Logo officiel : le pictogramme (pastille + quatre pétales) est un SVG,
-   le bloc typographique reste du texte réel en Montserrat ExtraBold — même
-   police que la charte, et il reste net à toutes les tailles.
-   Le bleu #1F3149 de la charte n'étant pas lisible sur fond sombre, le bloc
-   typographique passe en #F9FAFE (la couleur « background » de la charte). */
-.logo { display: flex; align-items: center; gap: 13px; flex: none; }
-.logo__mark { width: 46px; height: 46px; flex: none; }
-
-.logo__name {
-  display: block;
-  font-family: var(--font-title);
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: -.015em;
-  color: var(--text);
-}
-
-.logo__sub {
-  display: block;
-  font-family: var(--font-title);
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: .29em;
-  line-height: 1;
-  color: var(--text);
-  margin-top: 6px;
-}
-
-.logo--lg { gap: 15px; }
-.logo--lg .logo__mark { width: 56px; height: 56px; }
-.logo--lg .logo__name { font-size: 24px; }
-.logo--lg .logo__sub { font-size: 10px; margin-top: 7px; }
+/* Logo officiel, extrait en vectoriel de la charte graphique (PDF).
+   Le bloc typographique étant en #1F3149 — illisible sur fond sombre — la
+   version sombre charge logo-inris-blanc.svg et la version claire le fichier
+   aux couleurs d'origine. Aucun autre traitement : le logo n'est pas retouché. */
+.logo { display: flex; align-items: center; flex: none; }
+.logo__img { height: 58px; width: auto; display: block; }
+.logo--lg .logo__img { height: 74px; }
 
 .nav { margin-left: auto; }
 
