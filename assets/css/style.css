@@ -74,9 +74,18 @@
   --ghost-bg-hover: rgba(249, 250, 254, .09);
   --icon-bg: linear-gradient(150deg, rgba(40, 27, 89, .9), rgba(193, 0, 88, .55));
 
-  /* Accents dérivés : le vert de charte #00E5AC est trop clair pour du texte
-     sur fond blanc, la déclinaison claire l'assombrit sans changer la teinte. */
-  --mint-text: #00E5AC;
+  /* Accent secondaire. Sur fond sombre c'est le vert de charte #00E5AC ;
+     la déclinaison claire le remplace entièrement par le rose #C10058
+     (voir theme-clair.css). Tout passe par ces tokens : aucune valeur
+     d'accent secondaire n'est écrite en dur ailleurs dans le fichier. */
+  --accent2: #00E5AC;
+  --accent2-text: #00E5AC;
+  --accent2-soft: rgba(0, 229, 172, .12);
+  --accent2-border: rgba(0, 229, 172, .32);
+  --accent2-ring: rgba(0, 229, 172, .16);
+  --accent2-glow: rgba(0, 229, 172, .25);
+  --accent2-shadow: 0 18px 45px -14px rgba(0, 229, 172, .6);
+  --focus: #00E5AC;
   --tag-rose-text: #FF8FC0;
   --star: #FFC45C;
   --grad-text: linear-gradient(100deg, #A78BFA 0%, #E0479A 55%, #FF7FB5 100%);
@@ -161,7 +170,7 @@ p { margin: 0; }
 }
 
 :focus-visible {
-  outline: 2px solid var(--brand-mint);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -203,8 +212,8 @@ p { margin: 0; }
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--brand-mint);
-  box-shadow: 0 0 0 4px rgba(0, 229, 172, .16);
+  background: var(--accent2);
+  box-shadow: 0 0 0 4px var(--accent2-ring);
 }
 
 .h1 { font-size: clamp(2.5rem, 6vw, 4.35rem); }
@@ -225,7 +234,7 @@ p { margin: 0; }
   color: transparent;
 }
 
-.mint { color: var(--mint-text); }
+.mint { color: var(--accent2-text); }
 
 /* ----------------------------- 4. Boutons ------------------------------ */
 .btn {
@@ -275,9 +284,9 @@ p { margin: 0; }
 }
 
 .btn--mint {
-  background: var(--brand-mint);
+  background: var(--accent2);
   color: #06231B;
-  box-shadow: 0 18px 45px -14px rgba(0, 229, 172, .6);
+  box-shadow: var(--accent2-shadow);
 }
 
 .btn--mint:hover { transform: translateY(-2px); }
@@ -374,7 +383,7 @@ p { margin: 0; }
   transition: color .2s;
 }
 
-.header__phone:hover { color: var(--mint-text); }
+.header__phone:hover { color: var(--accent2-text); }
 .header__phone svg { width: 16px; height: 16px; }
 
 /* En grid, les trois barres occupent des lignes étirées : l'espacement réel
@@ -454,7 +463,7 @@ p { margin: 0; }
   color: var(--text-2);
 }
 
-.chip svg { width: 15px; height: 15px; color: var(--brand-mint); flex: none; }
+.chip svg { width: 15px; height: 15px; color: var(--accent2-text); flex: none; }
 
 /* Visuel héro : carte de parcours en verre */
 .hero__visual { position: relative; }
@@ -501,9 +510,9 @@ p { margin: 0; }
   text-transform: uppercase;
   padding: 7px 13px;
   border-radius: var(--r-pill);
-  background: rgba(0, 229, 172, .12);
-  color: var(--brand-mint);
-  border: 1px solid rgba(0, 229, 172, .32);
+  background: var(--accent2-soft);
+  color: var(--accent2-text);
+  border: 1px solid var(--accent2-border);
   white-space: nowrap;
 }
 
@@ -552,7 +561,7 @@ p { margin: 0; }
   letter-spacing: .04em;
 }
 
-.step.is-done .step__state { color: var(--mint-text); }
+.step.is-done .step__state { color: var(--accent2-text); }
 
 .pathcard__foot {
   margin-top: 22px;
@@ -612,8 +621,8 @@ p { margin: 0; }
 }
 
 .floating__icon svg { width: 18px; height: 18px; color: #fff; }
-.floating__icon--mint { background: rgba(0, 229, 172, .14); border: 1px solid rgba(0, 229, 172, .3); }
-.floating__icon--mint svg { color: var(--mint-text); }
+.floating__icon--mint { background: var(--accent2-soft); border: 1px solid var(--accent2-border); }
+.floating__icon--mint svg { color: var(--accent2-text); }
 .floating__k { display: block; font-family: var(--font-title); font-weight: 800; font-size: 15px; line-height: 1.2; }
 .floating__s { display: block; font-size: 12px; color: var(--text-3); line-height: 1.45; }
 
@@ -769,9 +778,9 @@ p { margin: 0; }
 }
 
 .card__tag--mint {
-  background: rgba(0, 229, 172, .1);
-  border-color: rgba(0, 229, 172, .34);
-  color: var(--mint-text);
+  background: var(--accent2-soft);
+  border-color: var(--accent2-border);
+  color: var(--accent2-text);
 }
 
 .card h3 { font-size: 1.32rem; }
@@ -787,7 +796,7 @@ p { margin: 0; }
   align-items: flex-start;
 }
 
-.card__list svg { width: 15px; height: 15px; color: var(--mint-text); flex: none; margin-top: 5px; }
+.card__list svg { width: 15px; height: 15px; color: var(--accent2-text); flex: none; margin-top: 5px; }
 
 .card__link {
   margin-top: auto;
@@ -861,12 +870,12 @@ p { margin: 0; }
   display: grid;
   place-items: center;
   border-radius: 8px;
-  background: rgba(0, 229, 172, .12);
-  border: 1px solid rgba(0, 229, 172, .3);
+  background: var(--accent2-soft);
+  border: 1px solid var(--accent2-border);
   margin-top: 2px;
 }
 
-.checklist__ico svg { width: 13px; height: 13px; color: var(--mint-text); }
+.checklist__ico svg { width: 13px; height: 13px; color: var(--accent2-text); }
 .checklist strong { color: var(--text); font-weight: 700; }
 
 .panel {
@@ -1032,7 +1041,7 @@ p { margin: 0; }
   inset: 0;
   background:
     radial-gradient(600px 300px at 50% 0%, rgba(255, 255, 255, .2), transparent 70%),
-    radial-gradient(500px 320px at 90% 110%, rgba(0, 229, 172, .25), transparent 65%);
+    radial-gradient(500px 320px at 90% 110%, var(--accent2-glow), transparent 65%);
 }
 
 .cta > * { position: relative; z-index: 1; }
@@ -1080,7 +1089,7 @@ p { margin: 0; }
 
 .footer__list { display: grid; gap: 11px; }
 .footer__list a { font-size: 14.5px; color: var(--text-3); transition: color .2s; }
-.footer__list a:hover { color: var(--mint-text); }
+.footer__list a:hover { color: var(--accent2-text); }
 
 .socials { display: flex; gap: 10px; margin-top: 24px; }
 

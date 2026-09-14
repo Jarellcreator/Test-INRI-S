@@ -62,6 +62,21 @@ Tous les tokens sont regroupés dans le bloc `:root` en tête de
 - [ ] **Liens réseaux sociaux** du footer (`href="#"`).
 - [ ] Brancher les CTA sur le vrai formulaire de contact / devis.
 
+## Version claire
+
+`clair.html` reprend `index.html` et charge `assets/css/theme-clair.css` en
+plus. Ce fichier ne redéfinit que les tokens du bloc `:root` : aucune règle de
+mise en page n'est dupliquée, les deux versions partagent `style.css`. Un
+sélecteur en pied de page fait passer de l'une à l'autre.
+
+Sur fond clair, la charte retrouve ses rôles d'origine — background `#F9FAFE`,
+texte `#1F3149`, texte bis `#9AA6B7` — et le dégradé `#281B59 → #C10058` ses
+valeurs exactes (sur fond sombre il devait être éclairci pour rester lisible).
+
+**L'accent secondaire n'est pas le même dans les deux versions** : vert
+`#00E5AC` sur fond sombre, rose `#C10058` sur fond clair. Tout passe par les
+tokens `--accent2*`, aucune valeur n'est écrite en dur.
+
 ## Logo
 
 Le logo est intégré en deux parties :

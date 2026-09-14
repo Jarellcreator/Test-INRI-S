@@ -62,9 +62,18 @@
   --ghost-bg-hover: rgba(31, 49, 73, .05);
   --icon-bg: var(--gradient);
 
-  /* Accents : le dégradé de charte à ses valeurs exactes, et un vert
-     assombri pour le texte — #00E5AC sur blanc plafonne à 1,7:1. */
-  --mint-text: #00815C;
+  /* Accent secondaire : plus de vert ici. Le #00E5AC de la charte est
+     remplacé par le rose #C10058 — l'autre couleur forte d'INRI'S — qui
+     tient largement le contraste sur blanc (6,9:1) là où le vert plafonne
+     à 1,7:1. Les conteneurs d'icônes, eux, prennent le dégradé de marque. */
+  --accent2: #C10058;
+  --accent2-text: #C10058;
+  --accent2-soft: rgba(193, 0, 88, .08);
+  --accent2-border: rgba(193, 0, 88, .24);
+  --accent2-ring: rgba(193, 0, 88, .13);
+  --accent2-glow: rgba(40, 27, 89, .4);
+  --accent2-shadow: 0 16px 40px -14px rgba(193, 0, 88, .55);
+  --focus: #C10058;
   --tag-rose-text: #C10058;
   --star: #E8A118;
   --grad-text: linear-gradient(100deg, #281B59 0%, #8A1C5C 55%, #C10058 100%);
@@ -102,8 +111,15 @@
 .btn--ghost,
 .socials a { background: #FFFFFF; box-shadow: var(--shadow-sm); }
 
-/* Le vert de charte pur est trop pâle pour une pastille de 7 px sur blanc. */
-.eyebrow::before { background: var(--mint-text); box-shadow: 0 0 0 4px rgba(0, 129, 92, .12); }
+/* Les pastilles d'icônes de la liste financement passent au dégradé de
+   marque, avec le pictogramme en réserve : c'est la touche qui remplace le
+   vert sans tomber dans le tout-rose. */
+.checklist__ico {
+  background: var(--gradient);
+  border-color: transparent;
+}
+
+.checklist__ico svg { color: #fff; }
 
 /* Le halo derrière la carte du hero est trop saturé sur fond clair. */
 .hero__visual::before { opacity: .14; }
