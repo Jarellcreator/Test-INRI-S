@@ -122,6 +122,12 @@
 <path transform="matrix(1,0,0,-1,-21,562.776)" d="M202.981 239.45H401.91999V324.898H202.981Z"/>
 </clipPath>
 </defs>
+<!-- Version fond sombre : dans le fichier officiel les deux silhouettes
+     sont des DÉCOUPES, pas des aplats blancs — sur fond clair c'est le
+     blanc de la page qui transparaît. Ce disque, placé sous la pastille,
+     leur rend leur blanc sur fond sombre. Rien d'autre n'est modifié. -->
+<circle cx="29.53" cy="29.405" r="15.4" fill="#F9FAFE"/>
+
 <g clip-path="url(#clip_1)">
 <g inkscape:groupmode="layer" inkscape:label="Calque 1">
 <g clip-path="url(#clip_2)">

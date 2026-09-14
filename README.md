@@ -96,10 +96,15 @@ Le logo est le **fichier officiel**, extrait en vectoriel du PDF de charte
 graphique (`Charte_graphique_INRIS.pdf`, page 1) avec PyMuPDF. Aucun tracé
 n'est redessiné.
 
-Une seule adaptation, et elle est isolée dans un fichier séparé : le bloc
-typographique est en `#1F3149`, illisible sur fond sombre. `logo-inris-blanc.svg`
-le passe en `#F9FAFE` ; tout le reste du fichier est identique. La version
-claire charge `logo-inris.svg`, aux couleurs d'origine.
+`logo-inris.svg` est le fichier d'origine, intact — c'est celui que charge la
+version claire. `logo-inris-blanc.svg` en reprend l'intégralité avec deux
+adaptations pour fond sombre, et rien d'autre :
+
+1. le bloc typographique passe de `#1F3149` à `#F9FAFE` ;
+2. un disque `#F9FAFE` est glissé **sous** la pastille. Dans le fichier
+   officiel, les deux silhouettes sont des **découpes** et non des aplats
+   blancs : sur fond clair le blanc de la page transparaît, sur fond sombre
+   c'était le noir qui remontait. Ce disque leur rend leur blanc.
 
 > **À signaler au graphiste** : le fichier officiel comporte un filet clair
 > (`#F1F4FE`) qui cerne le pictogramme. Invisible sur fond clair, il se voit
