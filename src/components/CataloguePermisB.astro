@@ -1,0 +1,609 @@
+---
+/* ═══════════════════════════════════════════════════════════════════════════
+   CATALOGUE PERMIS B — tarifs et formules
+
+   ⚠️  TOUTES LES DONNÉES SONT DANS LE TABLEAU CI-DESSOUS.
+       Un prix, un acompte, un volume horaire ou un libellé ne se modifient
+       qu'ici. Rien n'est écrit en dur dans le rendu.
+
+   Lecture du tableau :
+     boites        formules disponibles pour cette boîte de vitesses
+     tarifs        prix et acompte, par boîte (l'acompte vaut 10 % arrondi)
+     conduite      heures + jours ; null si la formule n'inclut pas de conduite
+     lignes        lignes de détail après celle de conduite
+     surEvaluation le prix est remplacé par « Sur évaluation »
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const FORMULES = [
+  {
+    id: 'essentiel',
+    nom: 'Essentiel',
+    situation: "Je n'ai jamais conduit",
+    badge: 'Le plus choisi',
+    miseEnAvant: true,
+    boites: ['manuelle', 'automatique'],
+    tarifs: {
+      manuelle:    { prix: 1409, acompte: 141 },
+      automatique: { prix: 1509, acompte: 151 },
+    },
+    conduite: { heures: 20, jours: 5 },
+    lignes: [
+      { icone: 'moniteur', texte: 'Un seul moniteur du début à la fin' },
+      { icone: 'calendrier', texte: "Place d'examen dès l'inscription" },
+    ],
+  },
+  {
+    id: 'serenite',
+    nom: 'Sérénité',
+    situation: "Je veux de la marge avant l'examen",
+    boites: ['manuelle', 'automatique'],
+    tarifs: {
+      manuelle:    { prix: 1739, acompte: 174 },
+      automatique: { prix: 1869, acompte: 187 },
+    },
+    conduite: { heures: 25, jours: 6 },
+    lignes: [
+      { icone: 'moniteur', texte: 'Un seul moniteur du début à la fin' },
+      { icone: 'calendrier', texte: "Place d'examen dès l'inscription" },
+    ],
+  },
+  {
+    id: 'maitrise',
+    nom: 'Maîtrise',
+    situation: "La route m'inquiète, je veux le maximum",
+    boites: ['manuelle', 'automatique'],
+    tarifs: {
+      manuelle:    { prix: 2069, acompte: 207 },
+      automatique: { prix: 2219, acompte: 222 },
+    },
+    conduite: { heures: 30, jours: 10 },
+    lignes: [
+      { icone: 'moniteur', texte: 'Un seul moniteur du début à la fin' },
+      { icone: 'calendrier', texte: "Place d'examen dès l'inscription" },
+    ],
+  },
+  {
+    id: 'passerelle',
+    nom: 'Passerelle',
+    situation: "J'ai le permis en boîte automatique",
+    boites: ['manuelle'],
+    tarifs: {
+      manuelle: { prix: 419, acompte: 42 },
+    },
+    conduite: { heures: 7, jours: 2 },
+    lignes: [
+      { icone: 'check', texte: 'Aucun examen à repasser' },
+      { icone: 'document', texte: 'Nouveau permis édité pour vous' },
+    ],
+  },
+  {
+    id: 'elan',
+    nom: 'Élan',
+    situation: "J'ai déjà pas mal conduit",
+    boites: ['automatique'],
+    tarifs: {
+      automatique: { prix: 1089, acompte: 109 },
+    },
+    conduite: { heures: 13, jours: 3 },
+    lignes: [
+      { icone: 'moniteur', texte: 'Un seul moniteur du début à la fin' },
+      { icone: 'calendrier', texte: "Place d'examen dès l'inscription" },
+    ],
+  },
+  {
+    id: 'second-depart',
+    nom: 'Second départ',
+    situation: 'Mon permis a été annulé ou invalidé',
+    boites: ['manuelle', 'automatique'],
+    surEvaluation: true,
+    mentionVolume: 'Le volume dépend de votre dossier',
+    conduite: null,
+    lignes: [
+      { icone: 'livre', texte: 'Code et conduite réunis' },
+      { icone: 'document', texte: "Dossier suivi jusqu'au repassage" },
+      { icone: 'horloge', texte: "Réponse d'un conseiller sous 24 h" },
+    ],
+    cta: { libelle: 'Faire évaluer mon dossier', href: '/contact' },
+  },
+];
+
+const ARGUMENTS = [
+  {
+    icone: 'bouclier',
+    titre: "Jusqu'à 100 % pris en charge",
+    texte: "Le CPF peut couvrir l'intégralité de votre formation, sans plafond de 900 €.",
+  },
+  {
+    icone: 'portefeuille',
+    titre: 'Six solutions de financement',
+    texte: "CPF, France Travail, bourse au permis, permis à 1 € par jour, paiement en 4 fois, acompte de 10 %.",
+  },
+  {
+    icone: 'etoile',
+    titre: 'Depuis 2003',
+    texte: "Vingt-trois ans d'expérience et 175 000 élèves formés.",
+  },
+  {
+    icone: 'calendrier',
+    titre: "Place d'examen garantie",
+    texte: 'Votre date est réservée dès l’inscription.',
+  },
+];
+
+/* ───────────────────────── Rendu — ne contient aucune donnée ───────────── */
+
+// 1 409 € : espace fine insécable pour les milliers, insécable avant l'euro.
+const euros = (n) =>
+  String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
+
+const BOITES = ['manuelle', 'automatique'];
+
+// Une carte par couple (formule, boîte). Le rythme ne change qu'une ligne :
+// les deux variantes sont rendues, le CSS n'affiche que celle qui s'applique.
+const cartes = BOITES.flatMap((boite) =>
+  FORMULES.filter((f) => f.boites.includes(boite)).map((f) => ({ f, boite })),
+);
+
+const ICONES = {
+  horloge: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  moniteur: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+  calendrier: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  check: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+  document: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/>',
+  livre: '<path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v4H6.5A2.5 2.5 0 0 1 4 19.5Z"/>',
+  cadenas: '<path d="M7 11V7a5 5 0 0 1 9.9-1"/><rect x="4" y="11" width="16" height="10" rx="2"/>',
+  bouclier: '<path d="M12 2 3 7v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V7Z"/><path d="m9 12 2 2 4-4"/>',
+  portefeuille: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="17" cy="14" r="1.3"/>',
+  etoile: '<path d="m12 3 2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.4l6-.9Z"/>',
+};
+---
+
+<section class="cat" id="catalogue" data-catalogue data-rythme="acceleree" data-boite="manuelle">
+  <div class="wrap">
+
+    <!-- ══════════════════ 1. FILTRES ══════════════════ -->
+    <div class="cat__filtres">
+      <div class="cat__groupe" role="group" aria-label="Rythme de la formation">
+        <button type="button" class="cat__pilule" data-filtre="rythme" data-valeur="acceleree" aria-pressed="true">Accélérée</button>
+        <button type="button" class="cat__pilule" data-filtre="rythme" data-valeur="traditionnelle" aria-pressed="false">Traditionnelle</button>
+      </div>
+
+      <span class="cat__filet" aria-hidden="true"></span>
+
+      <div class="cat__groupe" role="group" aria-label="Type de boîte de vitesses">
+        <button type="button" class="cat__pilule" data-filtre="boite" data-valeur="manuelle" aria-pressed="true">Boîte manuelle</button>
+        <button type="button" class="cat__pilule" data-filtre="boite" data-valeur="automatique" aria-pressed="false">Boîte automatique</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════ 2. BANDEAU ACOMPTE ══════════════════ -->
+    <aside class="cat__acompte">
+      <span class="cat__acompte-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={ICONES.cadenas} />
+      </span>
+      <div>
+        <p class="cat__acompte-titre">Votre place se réserve avec 10 % du montant</p>
+        <p class="cat__acompte-texte">
+          Le solde vient après, et se finance jusqu'à 100 % par le CPF, France
+          Travail, la bourse au permis ou le permis à 1 € par jour.
+        </p>
+      </div>
+    </aside>
+
+    <!-- ══════════════════ 3. GRILLE DE FORMULES ══════════════════ -->
+    <div class="cat__grille">
+      {cartes.map(({ f, boite }) => {
+        const tarif = f.tarifs?.[boite];
+        const cta = f.cta ?? {
+          libelle: 'Choisir ce stage',
+          href: `/inscription?formule=${f.id}&boite=${boite}`,
+        };
+        const lienParametre = !f.cta;
+        return (
+          <article class={f.miseEnAvant ? 'cat__carte cat__carte--phare' : 'cat__carte'} data-boite={boite}>
+            {f.badge && <span class="cat__badge">{f.badge}</span>}
+
+            <h3 class="cat__nom">{f.nom}</h3>
+            <p class="cat__situation">{f.situation}</p>
+
+            {f.surEvaluation ? (
+              <>
+                <p class="cat__prix cat__prix--evaluation">Sur évaluation</p>
+                <p class="cat__mention">{f.mentionVolume}</p>
+              </>
+            ) : (
+              <>
+                <p class="cat__prix">{euros(tarif.prix)}</p>
+                <p class="cat__acompte-ligne">Je réserve ma place pour {euros(tarif.acompte)}</p>
+              </>
+            )}
+
+            <hr class="cat__filet-h" />
+
+            <ul class="cat__details">
+              {f.conduite && (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONES.horloge} />
+                  <span>
+                    {f.conduite.heures} h de conduite{' '}
+                    <span data-rythme="acceleree">sur {f.conduite.jours} jours</span><span data-rythme="traditionnelle">étalées selon votre rythme</span>
+                  </span>
+                </li>
+              )}
+              {f.lignes.map((l) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONES[l.icone]} />
+                  <span>{l.texte}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              class="btn btn--primary btn--block cat__cta"
+              href={lienParametre ? `${cta.href}&rythme=acceleree` : cta.href}
+              data-href-base={lienParametre ? cta.href : undefined}
+            >
+              {cta.libelle}
+            </a>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- ══════════════════ 4. BANDE D'ARGUMENTS ══════════════════ -->
+    <ul class="cat__arguments">
+      {ARGUMENTS.map((a) => (
+        <li class="cat__argument">
+          <span class="cat__argument-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={ICONES[a.icone]} />
+          </span>
+          <p class="cat__argument-titre">{a.titre}</p>
+          <p class="cat__argument-texte">{a.texte}</p>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</section>
+
+<style>
+  /* ═════════════ Catalogue Permis B ═════════════
+     Les couleurs viennent des tokens du site (public/assets/css/style.css) :
+     la section suit donc automatiquement la déclinaison sombre ou claire. */
+
+  .cat { padding-block: var(--section-y); position: relative; z-index: 1; }
+
+  /* ───────────── 1. Filtres ───────────── */
+  .cat__filtres {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--glass);
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 26px;
+  }
+
+  .cat__groupe { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .cat__filet {
+    width: 1px;
+    align-self: stretch;
+    min-height: 26px;
+    background: var(--line-strong);
+    flex: none;
+  }
+
+  .cat__pilule {
+    appearance: none;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text-2);
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1;
+    padding: 12px 22px;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .25s, border-color .25s, background-color .25s, box-shadow .25s;
+  }
+
+  .cat__pilule:hover { color: var(--text); border-color: var(--line-strong); background: var(--soft-fill); }
+
+  .cat__pilule[aria-pressed='true'] {
+    background: var(--gradient);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: var(--glow-rose);
+  }
+
+  .cat__pilule:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+  /* ───────────── 2. Bandeau acompte ───────────── */
+  .cat__acompte {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px 26px;
+    border: 1px solid var(--accent2-border);
+    border-radius: var(--r-lg);
+    background: var(--accent2-soft);
+    margin-bottom: clamp(28px, 3.5vw, 44px);
+  }
+
+  .cat__acompte-ico {
+    width: 42px;
+    height: 42px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    border: 1px solid var(--accent2-border);
+    background: var(--surface);
+    color: var(--accent2);
+  }
+
+  .cat__acompte-ico svg { width: 21px; height: 21px; }
+
+  .cat__acompte-titre {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: var(--text);
+    line-height: 1.35;
+  }
+
+  .cat__acompte-texte {
+    margin-top: 7px;
+    font-size: 15px;
+    color: var(--text-2);
+    max-width: 78ch;
+  }
+
+  /* ───────────── 3. Grille ───────────── */
+  .cat__grille {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr);
+    gap: 20px;
+  }
+
+  @media (min-width: 680px) {
+    .cat__grille { grid-template-columns: repeat(2, minmax(280px, 1fr)); }
+  }
+
+  @media (min-width: 1040px) {
+    .cat__grille { grid-template-columns: repeat(3, minmax(280px, 1fr)); }
+  }
+
+  .cat__carte {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 28px 28px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform .3s cubic-bezier(.2, .8, .2, 1), border-color .3s, box-shadow .3s;
+  }
+
+  .cat__carte:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Carte mise en avant : filet de marque permanent en tête. */
+  .cat__carte--phare {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  .cat__carte--phare::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--gradient);
+  }
+
+  .cat__badge {
+    align-self: flex-start;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: var(--r-pill);
+    background: var(--gradient);
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .cat__nom {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.3rem;
+    line-height: 1.15;
+    color: var(--text);
+  }
+
+  .cat__situation {
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--text-3);
+    min-height: 2.9em;
+  }
+
+  .cat__prix {
+    margin-top: 18px;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(2.3rem, 3.4vw, 2.9rem);
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cat__prix--evaluation { font-size: clamp(1.5rem, 2.2vw, 1.85rem); }
+
+  .cat__acompte-ligne {
+    margin-top: 10px;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--accent2);
+  }
+
+  .cat__mention {
+    margin-top: 10px;
+    font-size: 14.5px;
+    color: var(--text-3);
+  }
+
+  .cat__filet-h {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 22px 0;
+  }
+
+  .cat__details { display: grid; gap: 11px; margin: 0 0 24px; padding: 0; list-style: none; }
+
+  .cat__details li {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    font-size: 14.5px;
+    color: var(--text-2);
+  }
+
+  .cat__details svg {
+    width: 17px;
+    height: 17px;
+    flex: none;
+    margin-top: 2px;
+    color: var(--accent2);
+  }
+
+  .cat__cta { margin-top: auto; }
+
+  /* ───────────── 4. Bande d'arguments ───────────── */
+  .cat__arguments {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    margin: clamp(30px, 4vw, 48px) 0 0;
+    padding: 0;
+    list-style: none;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+
+  @media (min-width: 680px) { .cat__arguments { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .cat__arguments { grid-template-columns: repeat(4, 1fr); } }
+
+  .cat__argument {
+    background: var(--stat-bg);
+    padding: 26px 24px;
+    transition: background-color .3s;
+  }
+
+  .cat__argument:hover { background: var(--stat-bg-hover); }
+
+  .cat__argument-ico {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--gradient);
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .cat__argument-ico svg { width: 19px; height: 19px; }
+
+  .cat__argument-titre {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .cat__argument-texte {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-3);
+  }
+
+  /* ───────────── Filtrage ─────────────
+     Les quatre combinaisons sont rendues côté serveur ; seule celle qui
+     correspond aux filtres reste affichée. display:none la retire aussi de
+     l'arbre d'accessibilité. Sans JavaScript, l'état par défaut s'affiche. */
+  [data-catalogue][data-boite='manuelle'] .cat__carte[data-boite='automatique'],
+  [data-catalogue][data-boite='automatique'] .cat__carte[data-boite='manuelle'],
+  [data-catalogue][data-rythme='acceleree'] .cat__details [data-rythme='traditionnelle'],
+  [data-catalogue][data-rythme='traditionnelle'] .cat__details [data-rythme='acceleree'] {
+    display: none;
+  }
+
+  @media (max-width: 420px) {
+    .cat__filtres { width: 100%; border-radius: var(--r-lg); }
+    .cat__groupe { width: 100%; }
+    .cat__pilule { flex: 1; padding-inline: 14px; }
+    .cat__filet { display: none; }
+    .cat__acompte { flex-direction: column; gap: 14px; padding: 20px; }
+    .cat__carte { padding: 26px 22px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cat__carte, .cat__pilule, .cat__argument { transition: none; }
+    .cat__carte:hover { transform: none; }
+  }
+</style>
+
+<script>
+  const section = document.querySelector('[data-catalogue]');
+
+  if (section) {
+    const etat = { rythme: 'acceleree', boite: 'manuelle' };
+
+    const appliquer = () => {
+      section.dataset.rythme = etat.rythme;
+      section.dataset.boite = etat.boite;
+      // Le rythme voyage jusqu'à la page d'inscription.
+      section.querySelectorAll('[data-href-base]').forEach((lien) => {
+        lien.setAttribute('href', `${lien.dataset.hrefBase}&rythme=${etat.rythme}`);
+      });
+    };
+
+    section.querySelectorAll('[data-filtre]').forEach((bouton) => {
+      bouton.addEventListener('click', () => {
+        const { filtre, valeur } = bouton.dataset;
+        if (etat[filtre] === valeur) return;
+        etat[filtre] = valeur;
+
+        section.querySelectorAll(`[data-filtre="${filtre}"]`).forEach((b) => {
+          b.setAttribute('aria-pressed', String(b.dataset.valeur === valeur));
+        });
+
+        appliquer();
+      });
+    });
+
+    appliquer();
+  }
+</script>
