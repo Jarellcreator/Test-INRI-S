@@ -134,6 +134,25 @@
     io.observe(el);
   });
 
+  /* --------------------- Arrivée sur une ancre externe --------------------
+     Quand on arrive depuis une autre page avec une ancre (#formations), le
+     navigateur positionne la page dès l'analyse du HTML. Les polices et les
+     sections qui apparaissent au défilement modifient ensuite la hauteur, et
+     l'ancre se retrouve décalée. On repositionne une fois tout chargé. */
+  if (window.location.hash) {
+    window.addEventListener('load', function () {
+      var cible;
+      try {
+        cible = document.querySelector(window.location.hash);
+      } catch (e) {
+        return; // fragment qui n'est pas un sélecteur valide
+      }
+      // Repositionnement instantané : un défilement animé ferait voir la
+      // page se recaler toute seule une seconde après l'arrivée.
+      if (cible) cible.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
+  }
+
   /* ----------------------------- Année footer ---------------------------- */
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
