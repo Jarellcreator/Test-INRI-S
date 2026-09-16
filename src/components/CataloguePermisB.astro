@@ -93,14 +93,14 @@ const FORMULES = [
   {
     id: 'second-depart',
     nom: 'Second départ',
-    situation: 'Mon permis a été annulé ou invalidé',
+    situation: "Je repasse mon permis ou je change d'auto-école",
     boites: ['manuelle', 'automatique'],
     surEvaluation: true,
     mentionVolume: 'Le volume dépend de votre dossier',
     conduite: null,
     lignes: [
       { icone: 'livre', texte: 'Code et conduite réunis' },
-      { icone: 'document', texte: "Dossier suivi jusqu'au repassage" },
+      { icone: 'document', texte: "Nous récupérons votre dossier auprès de votre ancienne auto-école" },
       { icone: 'horloge', texte: "Réponse d'un conseiller sous 24 h" },
     ],
     cta: { libelle: 'Faire évaluer mon dossier', href: '/contact' },
@@ -200,7 +200,7 @@ const ICONES = {
         };
         const lienParametre = !f.cta;
         return (
-          <article class={f.miseEnAvant ? 'cat__carte cat__carte--phare' : 'cat__carte'} data-boite={boite}>
+          <article class={f.miseEnAvant ? 'cat__carte cat__carte--phare reveal' : 'cat__carte reveal'} data-boite={boite}>
             {f.badge && <span class="cat__badge">{f.badge}</span>}
 
             <h3 class="cat__nom">{f.nom}</h3>
@@ -251,7 +251,7 @@ const ICONES = {
     </div>
 
     <!-- ══════════════════ 4. BANDE D'ARGUMENTS ══════════════════ -->
-    <ul class="cat__arguments">
+    <ul class="cat__arguments reveal">
       {ARGUMENTS.map((a) => (
         <li class="cat__argument">
           <span class="cat__argument-ico" aria-hidden="true">
@@ -381,41 +381,51 @@ const ICONES = {
     .cat__grille { grid-template-columns: repeat(3, minmax(280px, 1fr)); }
   }
 
+  /* Animation reprise trait pour trait des cartes de la page d'accueil
+     (.card dans style.css) : mêmes durées, même courbe, même filet de marque
+     qui se déroule depuis la gauche au survol. */
   .cat__carte {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 30px 28px 28px;
+    padding: 32px 30px 30px;
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
     background: var(--card-bg);
-    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    transition: transform .3s cubic-bezier(.2, .8, .2, 1), border-color .3s, box-shadow .3s;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), border-color .35s, box-shadow .35s;
   }
 
-  .cat__carte:hover {
-    transform: translateY(-4px);
-    border-color: var(--line-strong);
-    box-shadow: var(--shadow-md);
-  }
-
-  /* Carte mise en avant : filet de marque permanent en tête. */
-  .cat__carte--phare {
-    border-color: var(--line-strong);
-    box-shadow: var(--shadow-md);
-  }
-
-  .cat__carte--phare::before {
+  .cat__carte::before {
     content: '';
     position: absolute;
     inset: 0 0 auto;
-    height: 3px;
-    background: var(--gradient);
+    height: 2px;
+    background: var(--gradient-line);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .45s cubic-bezier(.2, .8, .2, 1);
   }
 
+  .cat__carte:hover {
+    transform: translateY(-6px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  .cat__carte:hover::before { transform: scaleX(1); }
+
+  /* Carte mise en avant : le filet reste déroulé en permanence. */
+  .cat__carte--phare { border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+  .cat__carte--phare::before { transform: scaleX(1); }
+
+  /* Étiquette positionnée comme « Le plus demandé » de la page d'accueil :
+     en angle haut-droit, hors du flux, pour que le nom reste sur la même
+     ligne de base que les autres cartes. */
   .cat__badge {
-    align-self: flex-start;
+    position: absolute;
+    top: 26px;
+    right: 26px;
     font-family: var(--font-title);
     font-weight: 700;
     font-size: 10.5px;
@@ -425,7 +435,6 @@ const ICONES = {
     border-radius: var(--r-pill);
     background: var(--gradient);
     color: #fff;
-    margin-bottom: 16px;
   }
 
   .cat__nom {
@@ -440,7 +449,9 @@ const ICONES = {
     margin-top: 8px;
     font-size: 15px;
     color: var(--text-3);
-    min-height: 2.9em;
+    /* Réserve deux lignes : une situation qui passe sur deux lignes ne doit
+       pas décaler le prix par rapport aux cartes voisines. */
+    min-height: 3.4em;
   }
 
   .cat__prix {
@@ -567,6 +578,7 @@ const ICONES = {
     .cat__filet { display: none; }
     .cat__acompte { flex-direction: column; gap: 14px; padding: 20px; }
     .cat__carte { padding: 26px 22px 24px; }
+    .cat__badge { position: static; align-self: flex-start; margin-bottom: 14px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -584,6 +596,13 @@ const ICONES = {
     const appliquer = () => {
       section.dataset.rythme = etat.rythme;
       section.dataset.boite = etat.boite;
+
+      // Une carte masquée n'est jamais vue par l'observateur d'apparition :
+      // on la révèle nous-mêmes au moment où le filtre la fait apparaître.
+      section.querySelectorAll('.cat__carte').forEach((carte) => {
+        carte.style.transitionDelay = '0ms';
+        carte.classList.add('is-in');
+      });
       // Le rythme voyage jusqu'à la page d'inscription.
       section.querySelectorAll('[data-href-base]').forEach((lien) => {
         lien.setAttribute('href', `${lien.dataset.hrefBase}&rythme=${etat.rythme}`);
