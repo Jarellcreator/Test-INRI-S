@@ -415,9 +415,10 @@ const ICONES = {
 
   .cat__carte:hover::before { transform: scaleX(1); }
 
-  /* Carte mise en avant : le filet reste déroulé en permanence. */
+  /* Carte mise en avant : elle se distingue par son étiquette, son cadre et
+     son ombre. Le filet de marque, lui, s'anime au survol exactement comme
+     sur les autres cartes — aucun traitement figé. */
   .cat__carte--phare { border-color: var(--line-strong); box-shadow: var(--shadow-md); }
-  .cat__carte--phare::before { transform: scaleX(1); }
 
   /* Étiquette positionnée comme « Le plus demandé » de la page d'accueil :
      en angle haut-droit, hors du flux, pour que le nom reste sur la même
