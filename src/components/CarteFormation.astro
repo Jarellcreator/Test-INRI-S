@@ -22,7 +22,7 @@ const { formation: f } = Astro.props;
       </li>
     ))}
   </ul>
-  <a class="card__link" href={`/formations/${f.slug}/`}>
+  <a class="card__link" href={`/formations/${f.slug}/${f.ancre ?? ''}`}>
     <span>En savoir plus</span>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
   </a>

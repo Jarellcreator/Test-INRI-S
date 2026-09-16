@@ -158,8 +158,8 @@ const ICONES = {
 };
 ---
 
-<section class="cat" id="catalogue" data-catalogue data-rythme="acceleree" data-boite="manuelle">
-  <div class="wrap">
+<section class="cat" data-catalogue data-rythme="acceleree" data-boite="manuelle">
+  <div class="wrap" id="catalogue">
 
     <!-- ══════════════════ 1. FILTRES ══════════════════ -->
     <div class="cat__filtres">
@@ -272,6 +272,11 @@ const ICONES = {
      la section suit donc automatiquement la déclinaison sombre ou claire. */
 
   .cat { padding-block: var(--section-y); position: relative; z-index: 1; }
+
+  /* Arrivée depuis la page d'accueil : l'ancre est portée par le contenu et
+     non par la section, dont la marge haute gâcherait un tiers de l'écran.
+     Aucun scroll-margin ici : le scroll-padding global de <html> réserve déjà
+     la hauteur du header collant, et les deux s'additionneraient. */
 
   /* ───────────── 1. Filtres ───────────── */
   .cat__filtres {

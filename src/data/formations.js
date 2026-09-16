@@ -23,6 +23,8 @@ export const formations = [
     ],
     etiquette: { texte: 'Le plus demandé', style: 'phare' },
     duree: '1 à 4 semaines',
+    // Ouvre directement sur le catalogue tarifaire plutôt qu'en haut de page.
+    ancre: '#catalogue',
     icone: '<path d="M5 17h14M5 17a2 2 0 1 1-4 0m4 0a2 2 0 1 0-4 0m18 0a2 2 0 1 1-4 0m4 0a2 2 0 1 0-4 0M3 17v-4l2-5a2 2 0 0 1 2-1.4h10A2 2 0 0 1 19 8l2 5v4"/><path d="M5 13h14"/>',
   },
   {
