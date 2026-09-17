@@ -599,16 +599,24 @@ const ICONES = {
   if (section) {
     const etat = { rythme: 'acceleree', boite: 'manuelle' };
 
-    const appliquer = () => {
+    /**
+     * @param {boolean} revelerAussitot
+     *   false au chargement : les cartes apparaissent en fondu au défilement,
+     *     comme partout ailleurs sur le site. Les forcer ici les ferait
+     *     surgir d'un coup, et la transition détonnerait.
+     *   true sur un changement de filtre : une carte masquée n'est jamais vue
+     *     par l'observateur d'apparition, elle resterait donc invisible.
+     */
+    const appliquer = (revelerAussitot) => {
       section.dataset.rythme = etat.rythme;
       section.dataset.boite = etat.boite;
 
-      // Une carte masquée n'est jamais vue par l'observateur d'apparition :
-      // on la révèle nous-mêmes au moment où le filtre la fait apparaître.
-      section.querySelectorAll('.cat__carte').forEach((carte) => {
-        carte.style.transitionDelay = '0ms';
-        carte.classList.add('is-in');
-      });
+      if (revelerAussitot) {
+        section.querySelectorAll('.cat__carte').forEach((carte) => {
+          carte.style.transitionDelay = '0ms';
+          carte.classList.add('is-in');
+        });
+      }
       // Le rythme voyage jusqu'à la page d'inscription.
       section.querySelectorAll('[data-href-base]').forEach((lien) => {
         lien.setAttribute('href', `${lien.dataset.hrefBase}&rythme=${etat.rythme}`);
@@ -625,10 +633,10 @@ const ICONES = {
           b.setAttribute('aria-pressed', String(b.dataset.valeur === valeur));
         });
 
-        appliquer();
+        appliquer(true);
       });
     });
 
-    appliquer();
+    appliquer(false);
   }
 </script>

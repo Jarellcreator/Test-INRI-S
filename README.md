@@ -51,6 +51,32 @@ Aucun autre fichier à modifier. C'est le principe de toute la structure : le
 header, le pied de page et le gabarit des pages formation n'existent qu'en un
 seul exemplaire.
 
+## Convention de transition entre pages
+
+**Règle : toute navigation entre pages doit se comporter comme le passage
+« page formation → Nos formations ».** Concrètement, trois points :
+
+1. **Le contenu apparaît en fondu**, jamais d'un coup. Les blocs portent la
+   classe `.reveal` et sont révélés par l'observateur de `main.js` au fil du
+   défilement. Ne jamais forcer `is-in` au chargement : le contenu surgirait
+   sans transition et la page détonnerait avec le reste du site.
+
+2. **Les cartes d'une même grille apparaissent en cascade**, 70 ms d'écart,
+   plafonnée à 350 ms. La liste des conteneurs concernés est dans `main.js`
+   (`cards`, `cat__grille`, `method`, `quotes`, `faq`) — y ajouter toute
+   nouvelle grille de cartes.
+
+3. **L'arrivée sur une ancre est instantanée et déjà bien cadrée.** `main.js`
+   repositionne après l'événement `load`, sans animation. Ne pas ajouter de
+   `scroll-margin-top` sur une ancre : le `scroll-padding-top` global de
+   `<html>` réserve déjà la hauteur du header collant, et les deux
+   s'additionneraient.
+
+Le seul cas où l'on force l'affichage est un **changement de filtre** : une
+carte masquée par `display:none` n'est jamais vue par l'observateur, elle
+resterait invisible en réapparaissant. Voir `appliquer(revelerAussitot)` dans
+`CataloguePermisB.astro`.
+
 ## Ajouter une page
 
 Créer un fichier dans `src/pages/`. Le nom du fichier devient l'adresse

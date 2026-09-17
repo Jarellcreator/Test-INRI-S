@@ -127,7 +127,7 @@
   Array.prototype.forEach.call(revealables, function (el, i) {
     // Léger décalage en cascade pour les éléments d'une même grille
     var parent = el.parentElement;
-    if (parent && (parent.classList.contains('cards') || parent.classList.contains('method') || parent.classList.contains('quotes') || parent.classList.contains('faq'))) {
+    if (parent && (parent.classList.contains('cards') || parent.classList.contains('cat__grille') || parent.classList.contains('method') || parent.classList.contains('quotes') || parent.classList.contains('faq'))) {
       var index = Array.prototype.indexOf.call(parent.children, el);
       el.style.transitionDelay = Math.min(index * 70, 350) + 'ms';
     }
