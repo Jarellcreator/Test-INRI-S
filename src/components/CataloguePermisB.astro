@@ -113,12 +113,20 @@ const FORMULES = [
    qui liste les agences se trouve ailleurs. */
 const AGENCES = {
   lien: 'https://inris-formations.com/centres/',
+  eyebrow: 'Se former en agence',
   titre: 'Vous préférez une auto-école avec un local ?',
   texte:
-    "Une salle de code, un accueil où pousser la porte, une équipe que vous "
-    + "retrouvez d'une séance à l'autre : le réseau INRI'S compte plus de 300 "
-    + "lieux de conduite en France. Trouvez l'agence la plus proche de chez vous.",
-  bouton: 'Voir les agences du réseau',
+    "Le stage accéléré n'est pas la seule façon d'apprendre chez INRI'S. "
+    + "Si vous aimez avoir un lieu où pousser la porte, le réseau compte des "
+    + "agences partout en France.",
+  points: [
+    'Un local où venir quand vous en avez besoin',
+    'Une salle de code et des sessions sur place',
+    "Une équipe que vous retrouvez d'une séance à l'autre",
+  ],
+  chiffre: '300+',
+  chiffreLegende: 'lieux de conduite partout en France',
+  bouton: 'Trouver une agence près de chez moi',
 };
 
 const ARGUMENTS = [
@@ -266,22 +274,40 @@ const ICONES = {
     </div>
 
     <!-- ══════════════════ 4. AGENCES DU RÉSEAU ══════════════════
-         Volontairement sans aucun prix : c'est une orientation vers un autre
-         mode de formation, pas une septième formule. Le traitement visuel est
-         donc une bande large, sans rien qui rappelle une carte tarifaire. -->
+         Traité comme une section à part entière, au même poids que la grille,
+         mais sans aucun montant et sans la forme d'une carte tarifaire : c'est
+         une autre façon de se former, pas une septième formule. -->
     <aside class="cat__agences reveal">
-      <span class="cat__agences-ico" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={ICONES.agence} />
-      </span>
-      <div class="cat__agences-texte">
-        <h3 class="cat__agences-titre">{AGENCES.titre}</h3>
-        <p>{AGENCES.texte}</p>
+      <div class="cat__agences-corps">
+        <span class="eyebrow">{AGENCES.eyebrow}</span>
+        <h2 class="cat__agences-titre">{AGENCES.titre}</h2>
+        <p class="cat__agences-texte">{AGENCES.texte}</p>
+
+        <ul class="checklist cat__agences-points">
+          {AGENCES.points.map((pt) => (
+            <li>
+              <span class="checklist__ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>
+              </span>
+              <span>{pt}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a class="btn btn--primary cat__agences-cta" href={AGENCES.lien} target="_blank" rel="noopener">
+          {AGENCES.bouton}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+          <span class="sr-only"> (ouvre le site des agences dans un nouvel onglet)</span>
+        </a>
       </div>
-      <a class="btn btn--ghost cat__agences-cta" href={AGENCES.lien} target="_blank" rel="noopener">
-        {AGENCES.bouton}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
-        <span class="sr-only"> (ouvre le site des agences dans un nouvel onglet)</span>
-      </a>
+
+      <div class="cat__agences-visuel" aria-hidden="true">
+        <span class="cat__agences-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={ICONES.agence} />
+        </span>
+        <span class="cat__agences-chiffre">{AGENCES.chiffre}</span>
+        <span class="cat__agences-legende">{AGENCES.chiffreLegende}</span>
+      </div>
     </aside>
 
     <!-- ══════════════════ 5. BANDE D'ARGUMENTS ══════════════════ -->
@@ -547,48 +573,101 @@ const ICONES = {
 
   .cat__cta { margin-top: auto; }
 
-  /* ───────────── 4. Agences du réseau ───────────── */
+  /* ───────────── 4. Agences du réseau ─────────────
+     Même présence visuelle que la grille : pleine largeur, fort rembourrage,
+     titre de niveau section. Mais aucune forme de carte tarifaire. */
   .cat__agences {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     align-items: center;
-    gap: 22px 26px;
-    margin-top: clamp(28px, 3.5vw, 44px);
-    padding: 26px 30px;
+    gap: clamp(28px, 4vw, 56px);
+    margin-top: clamp(36px, 4.5vw, 56px);
+    padding: clamp(30px, 4vw, 52px);
     border: 1px solid var(--line-strong);
-    border-radius: var(--r-lg);
+    border-radius: var(--r-xl);
     background: var(--panel-bg);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
   }
 
-  .cat__agences-ico {
-    width: 52px;
-    height: 52px;
-    flex: none;
-    display: grid;
-    place-items: center;
-    border-radius: 15px;
-    background: var(--gradient);
-    color: #fff;
+  .cat__agences::after {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    right: -130px;
+    top: -140px;
+    border-radius: 50%;
+    background: var(--brand-rose);
+    filter: blur(100px);
+    opacity: .28;
+    pointer-events: none;
   }
 
-  .cat__agences-ico svg { width: 25px; height: 25px; }
+  .cat__agences > * { position: relative; z-index: 1; }
 
   .cat__agences-titre {
     font-family: var(--font-title);
     font-weight: 800;
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-    line-height: 1.3;
+    font-size: clamp(1.5rem, 2.6vw, 2.05rem);
+    line-height: 1.15;
+    letter-spacing: -.02em;
     color: var(--text);
   }
 
-  .cat__agences-texte p {
-    margin-top: 8px;
-    font-size: 15px;
+  .cat__agences-texte {
+    margin-top: 16px;
+    font-size: clamp(1rem, 1.3vw, 1.08rem);
     color: var(--text-2);
-    max-width: 68ch;
+    max-width: 54ch;
   }
 
-  .cat__agences-cta { white-space: nowrap; }
+  .cat__agences-points { margin-top: 26px; }
+  .cat__agences-cta { margin-top: 32px; }
+
+  /* Colonne de droite : un repère de réseau, jamais un tarif. */
+  .cat__agences-visuel {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: clamp(26px, 3vw, 38px) clamp(20px, 2.4vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--glass);
+  }
+
+  .cat__agences-ico {
+    width: 60px;
+    height: 60px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: var(--gradient);
+    color: #fff;
+    margin-bottom: 14px;
+  }
+
+  .cat__agences-ico svg { width: 29px; height: 29px; }
+
+  .cat__agences-chiffre {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 3.6vw, 3.1rem);
+    line-height: 1;
+    background: var(--grad-num);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .cat__agences-legende {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-3);
+    max-width: 22ch;
+  }
 
   .sr-only {
     position: absolute;
@@ -600,9 +679,11 @@ const ICONES = {
     border: 0;
   }
 
-  @media (max-width: 860px) {
-    .cat__agences { grid-template-columns: auto 1fr; }
-    .cat__agences-cta { grid-column: 1 / -1; justify-content: center; }
+  @media (max-width: 900px) {
+    /* minmax(0, 1fr) et non 1fr : sinon la piste prend la largeur minimale du
+       contenu et le texte déborde du bloc, qui est en overflow:hidden. */
+    .cat__agences { grid-template-columns: minmax(0, 1fr); }
+    .cat__agences-visuel { order: -1; }
   }
 
   /* ───────────── 5. Bande d'arguments ───────────── */
@@ -677,7 +758,15 @@ const ICONES = {
     .cat__acompte { flex-direction: column; gap: 14px; padding: 20px; }
     .cat__carte { padding: 26px 22px 24px; }
     .cat__badge { position: static; align-self: flex-start; margin-bottom: 14px; }
-    .cat__agences { grid-template-columns: 1fr; padding: 24px 22px; text-align: left; }
+    .cat__agences { padding: 26px 22px; }
+    /* Le libellé est long : sur une colonne étroite le bouton doit pouvoir
+       passer sur deux lignes plutôt que dépasser du bloc. */
+    .cat__agences-cta {
+      width: 100%;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.35;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
